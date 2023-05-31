@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "200114568637",
+    "project_id": "tdawey-424fd",
+    "storage_bucket": "tdawey-424fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200114568637:android:94ec57897ec589af0b66d4",
+        "android_client_info": {
+          "package_name": "com.tadawa.app23"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200114568637-uvkg9ote4d5dc2uau9feupba66n5jnoi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZeuAT2lGxWKBehRzMJFOLmzt8FhqS6bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200114568637-uvkg9ote4d5dc2uau9feupba66n5jnoi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
