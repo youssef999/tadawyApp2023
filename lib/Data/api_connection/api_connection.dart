@@ -1,9 +1,10 @@
 
  class API {
-  static const hostConnection ='https://tadawiapp.com/tdawa';
-  //  'https://192.168.1.14/tdawa';
+  static const hostConnection =
+      'https://tadawiapp.com/tdawa';
+    //'https://192.168.1.14/tdawa';
       //'http://192.168.1.5/tdawa';
-     // 'http://192.168.1.13/tdawa';
+     // 'http://192.168.1.13/tdawa';//https://tadawiapp.com/tdawa/done.html
       //'http://192.168.1.13/tdawa';
   static const hostConnectionUser = '$hostConnection/user';
   static const validateEmail = '$hostConnection/doctor/validate_email.php';
@@ -13,8 +14,10 @@
   static const signup = '$hostConnection/doctor/signup.php';
   static const SalesCoins = '$hostConnection/doctor/sales_coins.php';
   static const UpdatePaid = '$hostConnection/doctor/update_piad_doctors.php';
+  static const PAY = '$hostConnection/doctor/pay.php';
   static const AddFilters = '$hostConnection/doctor/add_filter.php';
   static const login = '$hostConnection/doctor/login.php';
+  static const Done= '$hostConnection/done.html';
   static const DoctorPhoneLogin = '$hostConnection/doctor/doctor_login_phone.php';
   static const UserPhoneLogin = '$hostConnection/doctor/user_login_phone.php';
   static const SalesLogin = '$hostConnection/doctor/sales.php';
@@ -26,11 +29,13 @@
   static const getMod = '$hostConnection/doctor/All_moderators.php';
   static const addMod = '$hostConnection/doctor/moderators_add.php';
   static const ChangeNumAds = '$hostConnection/doctor/update_num_ads.php';
+
   static const deleteMod = '$hostConnection/doctor/delete_mod.php';
   static const userLogin = '$hostConnection/doctor/user_login.php';
   static const userSignup = '$hostConnection/doctor/user_signup.php';
   static const appointments = '$hostConnection/doctor/ap.php';
   static const DoctorBookings = '$hostConnection/doctor/get_doctor_booking.php';
+  static const Payments = '$hostConnection/doctor/get_pay.php';
   static const getDoctorData = '$hostConnection/doctor/doctor_data.php';
   static const getDoctorAds = '$hostConnection/doctor/get_doctor_ads.php';
   static const RenewAd = '$hostConnection/doctor/renew_ad.php';

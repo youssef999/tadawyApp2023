@@ -9,19 +9,14 @@ import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import '../../../domain/models/booking.dart';
+
 import '../../bloc/tdawa/tdawa_states.dart';
 import '../../const/app_message.dart';
 
 
 class AppointmentWidget extends StatefulWidget {
 
-  // List<Booking> listApp;
-  // TdawaCubit cubit;
-  //
-  // AppointmentWidget(this.listApp,this.cubit, {Key? key}) : super(key: key);
+
 
   @override
   State<AppointmentWidget> createState() => _AppointmentWidgetState();
@@ -124,7 +119,6 @@ class _AppointmentWidgetState extends State<AppointmentWidget> {
                             Custom_Text(text:tdawaCubit.listAppointments[index].status.toString(),color:Colors.red,
                               fontSize:21,alignment:Alignment.center,
                             ),
-
 
                             const SizedBox(height: 10,),
                             (tdawaCubit.listAppointments[index].status=='بانتظار الموافقة' && press==false)?

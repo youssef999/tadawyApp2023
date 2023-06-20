@@ -162,7 +162,6 @@ class BookingCubit extends Cubit<BookingStates> {
 
   {
     var responseNotification;
-
     print("DEVICERegToken===="+deviceRegistrationToken);
     print("DEVICERegToken===="+docId);
     //String destinationAddress = userDropOffAddress;
@@ -213,10 +212,7 @@ class BookingCubit extends Cubit<BookingStates> {
   }
 
 
-
-
-
-}
+ }
 
 
 

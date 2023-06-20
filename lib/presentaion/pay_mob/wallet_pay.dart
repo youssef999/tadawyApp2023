@@ -1,22 +1,15 @@
-
-
-
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:doctors_app/presentaion/const/app_message.dart';
 import 'package:doctors_app/presentaion/pay_mob/constants/const.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
-import 'package:doctors_app/presentaion/views/Doctor/doctor_ads/create_ad_view.dart';
-import 'package:doctors_app/presentaion/views/Doctor/doctor_reg/register_view.dart';
+import 'package:doctors_app/presentaion/views/Doctor/pay_success/pay_success.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../../Data/api_connection/api_connection.dart';
-
 import 'package:http/http.dart' as http;
-
 import '../views/Doctor/sales_code/sales_code.dart';
 
 
@@ -28,9 +21,12 @@ class WalletPay extends StatelessWidget {
   String type;
   bool paid;
   int freeAds;
+  num total;
   String url;
 
-  WalletPay({required this.sales,required this.paid,required this.type,required this.ads,required this.days,required this.adsNum,required this.url,required this.freeAds});
+  WalletPay({required this.sales,
+    required this.total,
+    required this.paid,required this.type,required this.ads,required this.days,required this.adsNum,required this.url,required this.freeAds});
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +71,7 @@ class WalletPay extends StatelessWidget {
           if (url.contains('success=true')) {
             print("SUCCESS");
             appMessage(text: 'تمت العملية بنجاح ');
+            addNewPay ();
             increaseNumOfAds(adsNum, freeAds);
             if (ads == true) {
 
@@ -84,13 +81,10 @@ class WalletPay extends StatelessWidget {
 
               Future.delayed(Duration(seconds: 3)).then((value) {
 
-                Get.offAll(CreateAdView(
-                  days: days,
-                  sales: sales,
-                  numOfAds: adsNum,
-                  free: false,
-                  type: type,
-                ));
+                Get.offAll(
+                    PaySuccessView
+                      (type: type, cat: 'ads', adsNum: adsNum, days: days, sales: sales, free: false,)
+                );
 
               } );
 
@@ -106,11 +100,16 @@ class WalletPay extends StatelessWidget {
               else{
                 box.write('pay', 'pay');
                 Future.delayed(Duration(seconds: 3)).then((value) {
-                  Get.offAll(RegisterView(
-                    sales: sales,
-                    adsNum: adsNum,
-                    days: days,
-                  ));
+
+                  Get.offAll(
+                      PaySuccessView
+                        (type: type, cat: 'reg', adsNum: adsNum, days: days, sales: sales, free: false,)
+                  );
+                  // Get.offAll(RegisterView(
+                  //   sales: sales,
+                  //   adsNum: adsNum,
+                  //   days: days,
+                  // ));
                 });
               }
 
@@ -140,6 +139,45 @@ class WalletPay extends StatelessWidget {
             SnackBar(content: Text(message.message)),
           );
         });
+  }
+
+  addNewPay () async {
+
+    print("payment NOWW.............");
+
+    final box = GetStorage();
+
+    String Id = box.read('doc_Id') ?? 'x';
+
+    print("ID" + Id);
+
+    try {
+      var res = await http.post(Uri.parse(API.PAY),
+          body: {
+            "doctor_id": Id,
+            'status':'عملية ناجحة',
+            'total':(total/100).toString(),
+            'order_id':orderId.toString(),
+            'type':'دفع عن طريق المحفظة '
+          }
+
+      );
+
+      if (res.statusCode == 200) {
+        var resOfSignUp = jsonDecode(res.body);
+
+        print(resOfSignUp);
+        if (resOfSignUp['Success'] == true) {
+          print("ADD TO PAY");
+          print("SUCCESS");
+        } else {
+          print(res.body);
+          print("error${res.statusCode}");
+        }
+      }
+    } catch (e) {
+      print("ERROR==$e");
+    }
   }
 }
 

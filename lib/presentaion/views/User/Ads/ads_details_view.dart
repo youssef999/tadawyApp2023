@@ -61,11 +61,15 @@ class AdDetailsView extends StatelessWidget {
                                width: 132,
                                child: Image.network(ad.image.toString(),fit:BoxFit.cover,)),
                            SizedBox(width: 12,),
+
+                           (ad.doctor_image!.length>4)?
                            Container(
                             width: 132,
-//                             height: 200,
-                             child:Image.network(ad.doctor_image.toString()),
-                           ),
+                             child:Image.network(ad.doctor_image.toString())
+                           ):Container(
+                             width: 132,
+                             child:Image.asset('assets/images/doc.png'),
+                           )
                          ],
                        ),
                      ),

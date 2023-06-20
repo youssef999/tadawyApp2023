@@ -19,6 +19,33 @@ class displayThirdSuccessState extends TdawaStates{
 }
 
 
+
+
+
+
+
+class getPaymentsSuccessState extends TdawaStates{
+
+}
+
+class getPaymentsLoadingState extends TdawaStates{
+
+}
+
+class getPaymentsErrorState extends TdawaStates{
+  String error;
+  getPaymentsErrorState({required this.error});
+}
+
+
+
+
+
+
+
+
+
+
 class getAppointmentsSuccessState extends TdawaStates{
 }
 

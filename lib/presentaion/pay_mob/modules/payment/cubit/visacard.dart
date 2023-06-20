@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:doctors_app/presentaion/const/app_message.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
-import 'package:doctors_app/presentaion/views/Doctor/doctor_ads/create_ad_view.dart';
-import 'package:doctors_app/presentaion/views/Doctor/doctor_reg/register_view.dart';
+import 'package:doctors_app/presentaion/views/Doctor/pay_success/pay_success.dart';
 import 'package:doctors_app/presentaion/views/Doctor/sales_code/sales_code.dart';
-import 'package:doctors_app/presentaion/views/splash/splash_screen.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +20,7 @@ class VisaCard extends StatelessWidget {
   bool ads;
   String type;
   int days;
+  num total;
   int adsNum;
   int freeAds;
 
@@ -30,6 +29,7 @@ class VisaCard extends StatelessWidget {
       required this.ads,
         required this.type,
         required this.paid,
+        required this.total,
       required this.days,
         required this.finalToken,
       required this.adsNum,
@@ -79,50 +79,41 @@ class VisaCard extends StatelessWidget {
         },
         onPageFinished: (String url) {
           print('FINSH');
-
           print('Page finished loading: $url');
           if (url.contains('success=true')) {
+            print("ORDER ID========================"+orderId);
             print("SUCCESS");
             appMessage(text: 'تمت العملية بنجاح ');
+            addNewPay ();
             increaseNumOfAds(adsNum, freeAds);
             if (ads == true) {
               box.write('payAds', 'payAds');
               box.write('days', days);
 
-              Future.delayed(Duration(seconds: 3)).then((value) {
+              Future.delayed(Duration(seconds: 5)).then((value) {
 
-                Get.offAll(CreateAdView(
-                  days: days,
-                  sales: sales,
-                  numOfAds: adsNum,
-                  free: false,
-                  type: type,
-                ));
-
-              } );
-
+                Get.offAll(
+                    PaySuccessView
+                      (type: type, cat: 'ads', adsNum: adsNum, days: days, sales: sales, free: false));
+              });
             } else {
-
               if(paid==true){
-
-
               updateData();
-
-
-              }else{
-                box.write('pay', 'pay');
-                Future.delayed(Duration(seconds: 3)).then((value) {
-                  Get.offAll(RegisterView(
-                    sales: sales,
-                    adsNum: adsNum,
-                    days: days,
-                  ));
-                });
               }
 
+              else{
+                box.write('pay', 'pay');
+                Future.delayed(Duration(seconds: 5)).then((value) {
 
+                  Get.offAll(
+                    PaySuccessView
+                      (type: type, cat: 'reg', adsNum: adsNum, days: days, sales: sales, free: false,)
+                  );
 
+                });
+              }
             }
+
           } else {
             print("FAilded");
             // Future.delayed(Duration(seconds: 5)).then((value) {
@@ -133,9 +124,48 @@ class VisaCard extends StatelessWidget {
         gestureNavigationEnabled: true,
         backgroundColor: const Color(0x00000000),
       ),
-
-
     );
+  }
+
+
+  addNewPay () async {
+
+    print("payment NOWW.............");
+
+    final box = GetStorage();
+
+    String Id = box.read('doc_Id') ?? 'x';
+
+    print("ID" + Id);
+
+    try {
+      var res = await http.post(Uri.parse(API.PAY),
+          body: {
+            "doctor_id": Id,
+            'status':'عملية ناجحة',
+            'total':(total/100).toString(),
+            'order_id':orderId.toString(),
+            'type':'دفع عن طريق البطاقة '
+
+          }
+
+      );
+
+      if (res.statusCode == 200) {
+        var resOfSignUp = jsonDecode(res.body);
+
+        print(resOfSignUp);
+        if (resOfSignUp['Success'] == true) {
+          print("ADD TO PAY");
+          print("SUCCESS");
+        } else {
+          print(res.body);
+          print("error${res.statusCode}");
+        }
+      }
+    } catch (e) {
+      print("ERROR==$e");
+    }
   }
 
   JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
@@ -148,9 +178,6 @@ class VisaCard extends StatelessWidget {
         });
   }
 }
-
-
-
 
   void updateData() async{
 
@@ -188,7 +215,50 @@ class VisaCard extends StatelessWidget {
 
 
 
-
+//
+// void savePayment(String email,String name,String phone,String total,String trnx,String status) async{
+//   // $email = $_POST['email'];
+//   // $name = $_POST['name'];
+//   // $phone = $_POST['phone'];
+//   // $total = $_POST['total'];
+//   // $trnx=$_POST['Trnx ID'];
+//   // $orderId=$_POST['Order ID'];
+//   // $status = $_POST['status'];
+// print('SAVE');
+//   try{
+//     var res =await http.post(Uri.parse(API.PAY),body: {
+//       'email':'',
+//       'name':'V',
+//       'phone':'P',
+//       'total':'33',
+//       'Trnx':'11',
+//        'orderId':orderId,
+//       'status':'SSS',
+//     },
+//     );
+//
+//     if(res.statusCode==200){
+//
+//       var responseBody =jsonDecode(res.body);
+//
+//       if(responseBody["success"]==true) {
+//         print("UPDATE DONE");
+//         Get.offAll(SalesCode());
+//       }
+//
+//
+//     }
+//     else{
+//       print(res.statusCode);
+//
+//
+//     }
+//   }
+//   catch(e){
+//     print(e.toString());
+//
+//   }
+// }
 
 
 

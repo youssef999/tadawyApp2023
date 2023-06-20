@@ -224,13 +224,13 @@ import '../../../../resources/assets_manager.dart';
                               }
                               else{
                                 if(bakaList[index].price<1.0){
-                                  print("ZEEEEEEEERRRRRRRRRRO");
                                   Get.to(RegisterView(
                                     sales: sales,
                                     adsNum:bakaList[index].freeAds,
                                     days: bakaList[index].days,
                                   ));
-                                }else{
+                                }
+                                else{
                                   Get.to(EasyDataView(
                                     price:(bakaList[index].price*100).toString() ,
                                     ads: false,

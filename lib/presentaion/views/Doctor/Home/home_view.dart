@@ -60,11 +60,12 @@ class HomeView extends StatelessWidget {
                         Row(
                           children: [
                             const SizedBox(
-                              width: 7,
+                              width: 5,
                             ),
+                            ( tdawaCubit.doctorModel.doctor_image.toString().length>2)?
                             Container(
                               height: 100,
-                              width:80,
+                              width:78,
                               color: ColorsManager.primary,
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
@@ -73,9 +74,19 @@ class HomeView extends StatelessWidget {
                                   //fit: BoxFit.fill,
                                 ),
                               ),
+                            ): Container(
+                              height: 100,
+                              width:78,
+                              color: ColorsManager.primary,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Image.asset(
+                                 'assets/images/doc.png'
+                                ),
+                              ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width*0.10,
+                              width: MediaQuery.of(context).size.width*0.8,
                             ),
                             Column(
                               children:  [
@@ -106,7 +117,7 @@ class HomeView extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width*0.21,
+                              width: MediaQuery.of(context).size.width*0.20,
                             ),
                             SizedBox(
                               height: 90,

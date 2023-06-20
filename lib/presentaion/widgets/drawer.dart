@@ -1,6 +1,7 @@
 
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
 import 'package:doctors_app/presentaion/views/Country/countries_view.dart';
+import 'package:doctors_app/presentaion/views/Doctor/Payment/all_payments.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class _MainDrawerState extends State<MainDrawer> {
                           child: Row(
                             children: const [
                               SizedBox(width: 30,),
-                              Icon(Icons.ad_units_outlined,color:Colors.purple,size:30,),
+                              Icon(Icons.ad_units_outlined,color:Colors.blue,size:30,),
                               SizedBox(width: 30,),
                               Custom_Text(
                                 text:'مديرين حسابك ',
@@ -71,8 +72,24 @@ class _MainDrawerState extends State<MainDrawer> {
                         const SizedBox(
                           height: 30,
                         ),
-
-
+                        InkWell(
+                          child: Row(
+                            children: const [
+                              SizedBox(width: 20,),
+                              Icon(Icons.payment,color:Colors.blue,size:30,),
+                              SizedBox(width: 20,),
+                              Custom_Text(
+                                text:'عمليات الدفع الخاصة بك  ',
+                                fontSize:15,
+                              )
+                            ],
+                          ),
+                          onTap:(){
+                            Get.to(AllPaymentsView());
+                          },),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         InkWell(
                           child: Row(
                             children: const [

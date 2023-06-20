@@ -120,7 +120,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   Widget _buildDropDownWidget2(){
     return Container(
-
       decoration:BoxDecoration(
         borderRadius:BorderRadius.circular(20),
         color:ColorsManager.primary,
@@ -1203,8 +1202,6 @@ class _RegisterViewState extends State<RegisterView> {
                             const SizedBox(height: 20,),
                             CustomButton(text: "تسجيل",
                                 onPressed: (){
-
-
                                 final box=GetStorage();
                                 box.remove('pay');
 

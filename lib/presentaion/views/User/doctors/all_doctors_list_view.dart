@@ -160,11 +160,18 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
                                ),
                                Row(
                                  children: [
+
+                                   (listApp[index].doctor_image!.length>4)?
                                    SizedBox(
                                        height: 90,
                                        width: MediaQuery.of(context).size.width * 0.35,
                                        child: Image.network(
-                                           listApp[index].doctor_image.toString())),
+                                           listApp[index].doctor_image.toString())):
+                                       SizedBox(
+                                         height: 90,
+                                         width: MediaQuery.of(context).size.width * 0.35,
+                                         child:Image.asset('assets/images/doc.png'),
+                                       ),
 
                                    const SizedBox(
                                      width: 23,

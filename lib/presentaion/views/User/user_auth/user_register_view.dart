@@ -153,17 +153,10 @@ import 'Login.dart';
                                   onPressed: () {
 
                                 authCubit.validateUserEmail();
-                                 // authCubit.userRegister(
-                                 //   countryCode: countryCode
-                                 // );
-                                 //
-                                 // authCubit. registerInFireBase(type: 'user',
-                                 // countryCode:countryCode
-                                 // );
-                                    //authCubit.userRegister();
+
                                   }, color1: ColorsManager.primary,
                                   color2: Colors.white),
-                              
+
                               SizedBox(height: 16,),
                               Row(
                                 children: [

@@ -100,12 +100,7 @@ class _UserHomeViewState extends State<UserHomeView> {
               SizedBox(height: 5),
               Row(
                 children: [
-                  // InkWell(
-                  //   child:Icon(Icons.category,color:Colors.red,size:32),
-                  //   onTap:(){
-                  //     Get.to( FilterCatView());
-                  //   },
-                  // ),
+
                   DropdownButton<Country>(
                     value: patientCubit.country,
                     items: patientCubit.countryList.map((item) {

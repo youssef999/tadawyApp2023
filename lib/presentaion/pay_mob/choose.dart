@@ -66,10 +66,6 @@ class ChoosePaymentView extends StatelessWidget {
                     CustomButton(text: 'الدفع عن طريق البطاقات ', onPressed: (){
 
 
-
-
-
-
                     }, color1: ColorsManager.primary4, color2: Colors.white),
                   ],
                 ),
@@ -87,16 +83,11 @@ class ChoosePaymentView extends StatelessWidget {
 
                  Get.to(VisaCard(sales: sales, ads: ads, days: days, adsNum: adsNum, freeAds: freeAds,
                    paid:paid,type: type,
-                   finalToken: FinalTokenCard,
+                   finalToken: FinalTokenCard,total: num.parse(price.toString()),
                  ));
                });
-               //   }
-
-
              },
           ),
-
-
           InkWell(
             child: Padding(
               padding: const EdgeInsets.all(26.0),
@@ -120,6 +111,7 @@ class ChoosePaymentView extends StatelessWidget {
             ),
             onTap:(){
 
+              print(phone);
               Get.to(
 
                   WalletNumView
@@ -154,18 +146,22 @@ class ChoosePaymentView extends StatelessWidget {
  async
  {
    print("FIRST...........");
+
    DioHelperPayment.postData(url:'auth/tokens',data:{
      'api_key':paymobApiKey,
-
    } ).then((value) {
 
      print("VALUE");
+
      print(value.data.toString());
+
      firstToken=FirstToken.fromJson(value.data);
+
      paymobFirstToken=value.data['token'];
 
      print("PAYMOB FIRST==="+paymobFirstToken);
-     getOrderId(price,email,city,fname,lname,phonenum,type);
+
+     getOrderId(price: price,email: email,city: city,fname: fname,lname: lname,phonenum: phonenum,type: type);
 
    }).catchError((error){
 
@@ -176,7 +172,8 @@ class ChoosePaymentView extends StatelessWidget {
  }
 
 
- Future getOrderId(String price,String email,String city,String fname,String lname,String phonenum,String type)async{
+ Future getOrderId({required String price,required String email,required String city
+   ,required String fname,required String lname,required String phonenum,required String type})async{
 
    print("GET ORDER ID");
 
@@ -206,13 +203,14 @@ class ChoosePaymentView extends StatelessWidget {
      if(type=='visa'){
 
        print("VISA");
-       getFinalTokenCard(price,email,city,fname,lname,phonenum,type);
+       getFinalTokenCard(price: price,email: email,city: city,
+           fname: fname,lname: lname,phonenum: phonenum,type: type);
      }
 
      else{
 
        print("WALLLET PAY");
-       getFinalTokenWallet(price,email,city,fname,lname,phonenum,type);
+       getFinalTokenWallet(price: price,email: email,city: city,fname: fname,lname: lname,phonenum: phonenum,type: type);
 
      }
     // getFinalTokenWallet(price,email,city,fname,lname,phonenum);
@@ -225,13 +223,15 @@ class ChoosePaymentView extends StatelessWidget {
 
 
 
- Future getFinalTokenCard(String price,String email,String city, String fname,String lname,String phonenum ,String type )async{
+ Future getFinalTokenCard({
+ required String price,required String email,required String city, required String fname,
+   required String lname,required String phonenum ,required String type
+ })async{
 
    print("f="+paymobApiKey);
    print("f="+orderId);
-
+   print(phonenum);
    DioHelperPayment.postData(url:'acceptance/payment_keys',data:
-
    {
      "auth_token":paymobFirstToken,
      "amount_cents": price,
@@ -277,9 +277,13 @@ class ChoosePaymentView extends StatelessWidget {
    });
  }
 
- Future getFinalTokenWallet(String price,String email,String city, String fname,String lname,String phonenum,String type )async{
+ Future getFinalTokenWallet({
+ required String
+ price,required String email,required String city, required String fname,
+   required String lname,required String phonenum,required String type} )async{
 
    print('WALLET');
+   print(phonenum);
    DioHelperPayment.postData(url:'acceptance/payment_keys',data:
    {
      "auth_token":paymobFirstToken,

@@ -418,12 +418,27 @@ class AuthCubit extends Cubit<AuthStates> {
         required String name,
         required String phone,
         required String password}) async {
+
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission();
+
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('Permission granted');
+    } else {
+      print('Permission denied');
+    }
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
+
+
+
     try {
       emit(GoogleRegisterLoadingState());
       var res = await http.post(Uri.parse(API.userSignup), body: {
         "email": email,
         "password": password,
         "name": name,
+        'token':deviceToken!,
         "phone": phone
       });
 
@@ -455,13 +470,24 @@ class AuthCubit extends Cubit<AuthStates> {
       required String name,
       required String phone,
       required String password}) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission();
+
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('Permission granted');
+    } else {
+      print('Permission denied');
+    }
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
     try {
       emit(GoogleRegisterLoadingState());
       var res = await http.post(Uri.parse(API.userSignup), body: {
         "email": email,
         "password": password,
         "name": name,
-        "phone": phone
+        "phone": phone,
+        "token":deviceToken!,
       });
 
       if (res.statusCode == 200) {
@@ -1157,6 +1183,16 @@ class AuthCubit extends Cubit<AuthStates> {
   }
 
   userRegister({required String countryCode}) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission();
+
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('Permission granted');
+    } else {
+      print('Permission denied');
+    }
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
     try {
       String phone = '';
       if (countryCode == '+20') {
@@ -1170,7 +1206,8 @@ class AuthCubit extends Cubit<AuthStates> {
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
         "name": nameController.text.trim(),
-        "phone": phone
+        "phone": phone,
+        "token":deviceToken!
       });
 
       if (res.statusCode == 200) {

@@ -7,7 +7,6 @@ import 'package:doctors_app/presentaion/const/app_message.dart';
 import 'package:doctors_app/presentaion/pay_mob/choose.dart';
 import 'package:doctors_app/presentaion/pay_mob/constants/const.dart';
 import 'package:doctors_app/presentaion/pay_mob/models/first_token.dart';
-import 'package:doctors_app/presentaion/pay_mob/modules/payment/cubit/visacard.dart';
 import 'package:doctors_app/presentaion/pay_mob/network/dio.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
@@ -167,6 +166,7 @@ class EasyDataView extends StatelessWidget {
                             CustomButton(
                                 text: " اشتراك  ",
                                 onPressed: () {
+
 
                                   if(authCubit.emailController.text.contains('@')&&
                                   authCubit.cityController.length>2&&authCubit.nameController.text.length>1&&

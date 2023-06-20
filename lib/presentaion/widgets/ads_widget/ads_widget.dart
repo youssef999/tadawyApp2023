@@ -1,5 +1,3 @@
-
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctors_app/domain/models/ads.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
@@ -12,29 +10,24 @@ import '../../views/User/Ads/ads_details_view.dart';
 
 
  class AdsSlider extends StatelessWidget {
+
   List <Ads> adsList;
   AdsSlider(this.adsList, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final box=GetStorage();
     String c=box.read('country')??"x";
-
     List<Ads>newList=[];
-    // List<Best> newList = adsList.where((now2) =>endDate.isBefore(now) ).toList();
-
     for(int i=0;i<adsList.length;i++){
       print('HEREXXX');
       DateTime now = DateTime.now();
       DateTime endDate = DateTime.parse(adsList[i].date_end.toString());
       if(endDate.isAfter(now)&&adsList[i].country==c){
-        print('HERETRUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
         newList.add(adsList[i]);
       }
     }
     print("LIST000============"+newList.toString());
-
    // List<Ads> newList = adsList.where((now2) =>endDate.isBefore(now) ).toList();
     return  CarouselSlider(
       options: CarouselOptions(height: 196.0,autoPlay:true,
@@ -45,9 +38,7 @@ import '../../views/User/Ads/ads_details_view.dart';
       ),
       items: newList.map((i) {
 
-        // DateTime now = DateTime.now();
-        // DateTime endDate = DateTime.parse(i.date_end.toString());
-        // if (endDate.isAfter(now)&&i.country==c) {
+
         return Builder(
           builder: (BuildContext context) {
 

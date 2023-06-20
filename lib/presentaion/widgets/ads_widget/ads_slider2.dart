@@ -13,6 +13,7 @@ import '../../views/User/Ads/ads_details_view.dart';
 
 
 class AdsSlider2 extends StatelessWidget {
+
   List<Ads>adsList;
   AdsSlider2(this.adsList, {Key? key}) : super(key: key);
 

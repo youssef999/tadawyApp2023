@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../domain/models/moderator.dart';
+import '../../../domain/models/pay.dart';
 
 
  class TdawaCubit extends Cubit<TdawaStates> {
@@ -29,6 +30,7 @@ import '../../../domain/models/moderator.dart';
   Color cardColor2=Colors.white;
   Color cardColor3=Colors.white;
   List<Booking> listAppointments = [];
+  List<Pay> payList = [];
   List<Baka> bakaList = [];
   List<BakaSub> bakaSubList = [];
   List<Mod> modList = [];
@@ -180,6 +182,7 @@ import '../../../domain/models/moderator.dart';
 
 
   }
+
 
 
 
@@ -486,7 +489,46 @@ print("IMAGE====="+imageLink);
 
 
 
+  Future<List<Pay>> getDocotorPayments() async{
 
+    final box=GetStorage();
+    String doctorId=box.read('doc_Id')??"x";
+    try{
+
+      emit(getPaymentsLoadingState());
+
+      var res =await http.post(Uri.parse(API.Payments),
+          body: {
+            "doctor_id":doctorId,
+          }
+      );
+
+      if(res.statusCode==200){
+        print("APP==200");
+        var responseBody =jsonDecode(res.body);
+
+        if(responseBody["success"]==true) {
+          print("Bookings");
+          print(responseBody['Data']);
+          (responseBody['Data']as List).forEach ((eachRecord) {
+
+            payList.add(Pay.fromJson(eachRecord));
+
+          });
+        }
+        emit(getPaymentsSuccessState());
+      }
+      else{
+        emit(getPaymentsErrorState(error: 'ERROR'));
+      }
+    }
+    catch(e){
+      print('ERRORR==='+e.toString());
+      emit(getPaymentsErrorState(error: e.toString()));
+    }
+
+    return payList;
+  }
 
 
 
