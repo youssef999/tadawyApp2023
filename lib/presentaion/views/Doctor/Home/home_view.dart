@@ -86,7 +86,7 @@ class HomeView extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width*0.8,
+                              width: MediaQuery.of(context).size.width*0.6,
                             ),
                             Column(
                               children:  [
@@ -117,10 +117,10 @@ class HomeView extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width*0.20,
+                              width: MediaQuery.of(context).size.width*0.16,
                             ),
                             SizedBox(
-                              height: 90,
+                              height: 80,
                               child: Image.asset(
                                   AssetsManager.Logo
                                 // fit:BoxFit.cover,
@@ -143,9 +143,8 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   );
-                  
-                  
-                }else{
+                }
+                else{
                   return Scaffold(
                     appBar: AppBar(
                       elevation: 0,
@@ -163,7 +162,6 @@ class HomeView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child:
-
                       ListView(
                         children: [
                           const SizedBox(

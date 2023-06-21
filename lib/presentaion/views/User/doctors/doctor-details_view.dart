@@ -43,7 +43,7 @@ class DoctorDetailsView extends StatelessWidget {
                 child:Image.network(doctorData.doctor_image.toString()),
               ),
               const SizedBox(height: 30,),
-              Row(
+             Column(
                 children: [
                   Custom_Text(
                     text: doctorData.doctor_name.toString(),
@@ -51,7 +51,7 @@ class DoctorDetailsView extends StatelessWidget {
                     fontSize: 20,
                     alignment:Alignment.topRight,
                   ),
-                  const SizedBox(width: 40,),
+                  const SizedBox(height: 15,),
                   Custom_Text(
                     alignment:Alignment.topRight,
                     text: doctorData.doctor_cat.toString(),
@@ -73,27 +73,24 @@ class DoctorDetailsView extends StatelessWidget {
                   const SizedBox(width: 60,),
                   Column(
                     children: [
-                      // Custom_Text(text:doctorData.doctor_phone.toString(),alignment:Alignment.topRight,
-                      //   fontSize:15,
-                      //   color:ColorsManager.black,
-                      // ),
+
                       Custom_Text(text: 'رقم  ارضي ',alignment: Alignment.topRight),
                       SizedBox(height: 10,),
-                      Custom_Text(text: doctorData.clink_phone1.toString(),alignment:Alignment.center,
+                      Custom_Text(text: doctorData.doctor_phone.toString(),alignment:Alignment.center,
                         fontSize:15,
                         color:ColorsManager.black,
                       ),
                       SizedBox(height: 10,),
                       Custom_Text(text: 'رقم  موبيل ',alignment: Alignment.topRight),
                       SizedBox(height: 10,),
-                      Custom_Text(text:  doctorData.clink_phone2.toString(),alignment:Alignment.center,
+                      Custom_Text(text:  doctorData.doctor_phone1.toString(),alignment:Alignment.center,
                         fontSize:15,
                         color:ColorsManager.black,
                       ),
                       SizedBox(height: 10,),
                       Custom_Text(text: 'رقم  واتس ',alignment: Alignment.topRight),
                       SizedBox(height: 10,),
-                      Custom_Text(text:  doctorData.clink_phone3.toString(),alignment:Alignment.center,
+                      Custom_Text(text:  doctorData.doctor_phone2.toString(),alignment:Alignment.center,
                         fontSize:15,
                         color:ColorsManager.black,
                       ),

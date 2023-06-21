@@ -86,12 +86,14 @@ class VisaCard extends StatelessWidget {
             appMessage(text: 'تمت العملية بنجاح ');
             addNewPay ();
             increaseNumOfAds(adsNum, freeAds);
+
             if (ads == true) {
+
               box.write('payAds', 'payAds');
+
               box.write('days', days);
 
               Future.delayed(Duration(seconds: 5)).then((value) {
-
                 Get.offAll(
                     PaySuccessView
                       (type: type, cat: 'ads', adsNum: adsNum, days: days, sales: sales, free: false));

@@ -21,7 +21,7 @@ class AllDoctorsView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..getAllDoctors(cat2)..getAllAds2(),
+        create: (BuildContext context) => PatientCubit()..getAllDoctors(cat2)..getAllAds(),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
             listener: (context, state) {
@@ -121,7 +121,7 @@ class AllDoctorsView extends StatelessWidget {
 
 Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
 
-  bool empty=false;
+
   final box=GetStorage();
  String country= box.read('country')??'x';
  print("COUNTRY");
@@ -130,7 +130,7 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
  if(listApp.isNotEmpty){
    return SingleChildScrollView(
      child: Container(
-       height:9130,
+       height:913110,
        color: ColorsManager.primaryx,
        //width:double.infinity,
        padding: const EdgeInsets.only(top: 9, left: 7, right: 7),
@@ -164,17 +164,17 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
                                    (listApp[index].doctor_image!.length>4)?
                                    SizedBox(
                                        height: 90,
-                                       width: MediaQuery.of(context).size.width * 0.35,
+                                       width: MediaQuery.of(context).size.width * 0.30,
                                        child: Image.network(
                                            listApp[index].doctor_image.toString())):
                                        SizedBox(
                                          height: 90,
-                                         width: MediaQuery.of(context).size.width * 0.35,
+                                         width: MediaQuery.of(context).size.width * 0.30,
                                          child:Image.asset('assets/images/doc.png'),
                                        ),
 
                                    const SizedBox(
-                                     width: 23,
+                                     width: 16,
                                    ),
 
                                    SizedBox(
@@ -193,7 +193,7 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
                                          Custom_Text(
                                            text: listApp[index].doctor_cat.toString(),
                                            color: ColorsManager.primary,
-                                           fontSize: 16,
+                                           fontSize: 12,
                                            alignment: Alignment.center,
                                          ),
                                          const SizedBox(
@@ -243,14 +243,14 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
                    ),
                    SizedBox(height: 10,),
                    (index==0)?NewAdsWidget(
-                       cubit.doctorList,cubit.adsList2,cubit,0
+                       cubit.doctorList,cubit.adsList,cubit,0
                    ):SizedBox(height: 1,),
 
                    (index==2)?NewAdsWidget(
-                       cubit.doctorList,  cubit.adsList2,cubit,1
+                       cubit.doctorList,  cubit.adsList,cubit,0
                    ):SizedBox(height: 1,),
-                   (index==4)?NewAdsWidget(
-                       cubit.doctorList,   cubit.adsList2,cubit,0
+                   (index==5)?NewAdsWidget(
+                       cubit.doctorList,   cubit.adsList,cubit,0
                    ):SizedBox(height: 1,),
 
                  ],
@@ -332,13 +332,18 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
 
 Widget NewAdsWidget(List<DoctorModel>doc,List<Ads> listApp,PatientCubit cubit,int index2){
 
+  print("start==="+listApp.length.toString());
+  print("indes22==="+index2.toString());
+
   print('LENGTH');
   print(listApp.length);
   print(index2);
   if(index2>doc.length){
     index2==doc.length-1;
+  }else{
+   // index2=doc.length;
   }
-      print('NNN');
+
   return Container(
     height:104,
     color: ColorsManager.primary,
@@ -381,15 +386,6 @@ Widget NewAdsWidget(List<DoctorModel>doc,List<Ads> listApp,PatientCubit cubit,in
                                   text: listApp[index2].name.toString(),
                                   color: ColorsManager.white,
                                   fontSize: 16,
-                                  alignment: Alignment.center,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Custom_Text(
-                                  text: listApp[index2].details.toString(),
-                                  color: Colors.grey[100]!,
-                                  fontSize: 12,
                                   alignment: Alignment.center,
                                 ),
                                 const SizedBox(

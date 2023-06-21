@@ -217,25 +217,40 @@ class _UserHomeViewState extends State<UserHomeView> {
 
 
 
-              AdsSlider2(patientCubit.adsList2),
+              AdsSlider2(patientCubit.adsList),
 
               const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.all(17.0),
-                child: Custom_Text(text: 'افضل العروض',fontSize: 23,color:Colors.black,alignment:Alignment.topRight),
-              ),
-              const SizedBox(height: 20,),
-              BestSlider(patientCubit.bestList),
+
+              (patientCubit.bestList.length>0)?
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Custom_Text(text: 'افضل العروض',fontSize: 23,color:Colors.black,alignment:Alignment.topRight),
+                  ),  const SizedBox(height: 20,),
+                  BestSlider(patientCubit.bestList),
+
+                ],
+              ):SizedBox(),
+
               const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.only(right:28.0),
-                child: Custom_Text(text: 'افضل الاطباء',fontSize: 22,color:Colors.black,alignment:Alignment.topRight,),
-              ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TopDoctorsWidget(patientCubit.topDoctorList),
-              ),
+
+
+              (patientCubit.topDoctorList.length>0)?
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right:28.0),
+                    child: Custom_Text(text: 'افضل الاطباء',fontSize: 22,color:Colors.black,alignment:Alignment.topRight,),
+                  ),
+                  const SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TopDoctorsWidget(patientCubit.topDoctorList),
+                  ),
+                ],
+              ):SizedBox(),
+
               const SizedBox(height: 20,),
             ],
           ),
@@ -333,11 +348,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                 ),
               ),
               onTap: () {
-
-                print("CAATTTTT");
-                print((catList[index].cat2));
                 Get.to(AllDoctorsView(catList[index].cat2));
-
               },
             ),
           );

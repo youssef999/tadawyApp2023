@@ -15,12 +15,14 @@ String FinalTokenWallet='';
 
 String redirect_url='';
 
-String integrationIdCard= '3775051';
+String integrationIdCard= '3951666';
+    //'3775051';
     // live '3806577';
     //y '2362420';
 String itegrationIdKiosk='';
     //y '2363646';
-String itegrationIdWallet = '3805881';
+String itegrationIdWallet ='3951665';
+    //'3805881';
   // '3806576'; // live
     //y '3777689';
 var RefCode='';

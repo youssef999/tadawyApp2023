@@ -20,15 +20,12 @@ import '../../views/User/Ads/ads_details_view.dart';
     String c=box.read('country')??"x";
     List<Ads>newList=[];
     for(int i=0;i<adsList.length;i++){
-      print('HEREXXX');
       DateTime now = DateTime.now();
       DateTime endDate = DateTime.parse(adsList[i].date_end.toString());
       if(endDate.isAfter(now)&&adsList[i].country==c){
         newList.add(adsList[i]);
       }
     }
-    print("LIST000============"+newList.toString());
-   // List<Ads> newList = adsList.where((now2) =>endDate.isBefore(now) ).toList();
     return  CarouselSlider(
       options: CarouselOptions(height: 196.0,autoPlay:true,
         viewportFraction: 0.83,
@@ -65,7 +62,7 @@ import '../../views/User/Ads/ads_details_view.dart';
                       ),
                       Row(
                         children: [
-                          SizedBox(width: 6,),
+                          SizedBox(width: 3,),
                           Column(
                             children: [
                               SizedBox(height: 30,),
@@ -73,14 +70,21 @@ import '../../views/User/Ads/ads_details_view.dart';
                                 text:i.name.toString(),
                                 color:ColorsManager.white,
                                 alignment:Alignment.center,
-                                fontSize: 16,
+                                fontSize: 15,
                               ),
                               const SizedBox(height:12,),
-                              Custom_Text(
-                                text:i.details.toString(),
-                                color:Colors.grey[200]!,
-                                alignment:Alignment.center,
-                                fontSize: 12,
+                              Container(
+                                width: 120,
+                                height: 40,
+                                child: Wrap(
+                                  children: [Custom_Text(
+                                    text:i.details.toString(),
+                                    color:Colors.grey[200]!,
+                                    alignment:Alignment.center,
+                                    fontSize: 8,
+                                  ),],
+                                 // child:
+                                ),
                               ),
                               const SizedBox(height:32,),
                               CustomButton(
@@ -100,7 +104,7 @@ import '../../views/User/Ads/ads_details_view.dart';
                             padding: const EdgeInsets.all(1.0),
                             child: SizedBox(
                                 height:164,
-                                width: 118,
+                                width: 114,
                                 child: Container(
                                     decoration:BoxDecoration(
                                         borderRadius:BorderRadius.circular(6),

@@ -52,21 +52,21 @@ class ChoosePaymentView extends StatelessWidget {
               child: Container(
                 decoration:BoxDecoration(
                   borderRadius:BorderRadius.circular(12),
-                  color:ColorsManager.primary4
+                  color:ColorsManager.primary
                 ),
                 child: Column(
                   children: [
 
                     Container(
-                     width: 250,
+
+                      width: MediaQuery.of(context).size.width,
                       child:Image.asset('assets/images/card3.jpg',
                       fit:BoxFit.fill
                       ),
                     ),
                     CustomButton(text: 'الدفع عن طريق البطاقات ', onPressed: (){
 
-
-                    }, color1: ColorsManager.primary4, color2: Colors.white),
+                    }, color1: ColorsManager.primary, color2: Colors.white),
                   ],
                 ),
               ),
@@ -94,17 +94,18 @@ class ChoosePaymentView extends StatelessWidget {
               child: Container(
                 decoration:BoxDecoration(
                     borderRadius:BorderRadius.circular(12),
-                    color:ColorsManager.primary4
+                    color:ColorsManager.primary
                 ),
                 child: Column(
                   children: [
                     //SizedBox(height: 12,),
-                    Container(width: 250,
-                      child:  Image.asset('assets/images/wallet3.jpg',fit:BoxFit.fill),
+                    Container(width: MediaQuery.of(context).size.width,
+                      child:  Image.asset('assets/images/wa2.jpg',fit:BoxFit.fill),
                     ),
+                    SizedBox(height: 10,),
                     CustomButton(text: 'الدفع عن طريق المحافظ الالكترونية ', onPressed: () {
                       //Get.to();
-                      }, color1: ColorsManager.primary4, color2: Colors.white),
+                      }, color1: ColorsManager.primary, color2: Colors.white),
                   ],
                 ),
               ),
@@ -161,7 +162,12 @@ class ChoosePaymentView extends StatelessWidget {
 
      print("PAYMOB FIRST==="+paymobFirstToken);
 
-     getOrderId(price: price,email: email,city: city,fname: fname,lname: lname,phonenum: phonenum,type: type);
+     getOrderId(price:'1000'
+
+      //   @todo
+     //price
+
+         ,email: email,city: city,fname: fname,lname: lname,phonenum: phonenum,type: type);
 
    }).catchError((error){
 

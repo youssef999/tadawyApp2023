@@ -25,16 +25,13 @@ class AdsSlider2 extends StatelessWidget {
     List<Ads>newList=[];
 
     for(int i=0;i<adsList.length;i++){
-      print('ads22');
-      print('HEREXXX');
+
       DateTime now = DateTime.now();
       DateTime endDate = DateTime.parse(adsList[i].date_end.toString());
       if(endDate.isAfter(now)&&adsList[i].country==c){
-        print('HERETRUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
         newList.add(adsList[i]);
       }
     }
-    print("LIST2222============"+newList.toString());
 
 
     return  CarouselSlider(
@@ -46,9 +43,6 @@ class AdsSlider2 extends StatelessWidget {
       ),
       items: newList.map((i) {
 
-        // DateTime now = DateTime.now();
-        // DateTime endDate = DateTime.parse(i.date_end.toString());
-        // if (endDate.isAfter(now)&&i.country==c) {
         return Builder(
           builder: (BuildContext context) {
 
@@ -86,11 +80,19 @@ class AdsSlider2 extends StatelessWidget {
                                 fontSize: 16,
                               ),
                               const SizedBox(height:12,),
-                              Custom_Text(
-                                text:i.details.toString(),
-                                color:Colors.grey[200]!,
-                                alignment:Alignment.center,
-                                fontSize: 12,
+                              Container(
+                                width: 120,
+                                height: 40,
+                                child: Wrap(
+                                  children: [
+                                    Custom_Text(
+                                      text:i.details.toString(),
+                                      color:Colors.grey[200]!,
+                                      alignment:Alignment.center,
+                                      fontSize: 7,
+                                    ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(height:32,),
                               CustomButton(
