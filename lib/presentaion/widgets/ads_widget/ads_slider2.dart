@@ -28,7 +28,7 @@ class AdsSlider2 extends StatelessWidget {
 
       DateTime now = DateTime.now();
       DateTime endDate = DateTime.parse(adsList[i].date_end.toString());
-      if(endDate.isAfter(now)&&adsList[i].country==c){
+      if(endDate.isAfter(now)){
         newList.add(adsList[i]);
       }
     }

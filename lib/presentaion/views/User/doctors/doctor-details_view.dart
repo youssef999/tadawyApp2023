@@ -8,6 +8,7 @@ import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../booking/book_view.dart';
@@ -15,11 +16,13 @@ import '../booking/book_view.dart';
 class DoctorDetailsView extends StatelessWidget {
 
   DoctorModel doctorData;
-
-  DoctorDetailsView(this.doctorData);
+  double price;
+  DoctorDetailsView(this.doctorData,this.price);
 
   @override
   Widget build(BuildContext context) {
+    final box=GetStorage();
+    String currency=box.read('currency')??"";
     return Scaffold(
       backgroundColor:ColorsManager.primaryx,
       appBar:AppBar(
@@ -258,7 +261,8 @@ class DoctorDetailsView extends StatelessWidget {
                     color:ColorsManager.black,
                   ),
                   const SizedBox(width: 10,),
-                  Custom_Text(text: doctorData.price.toString(),alignment:Alignment.topRight,
+                  //(double.parse(listApp[index].price!)/price).toStringAsFixed(1)+" " +currency,
+                  Custom_Text(text: (double.parse(doctorData.price!)/price).toStringAsFixed(1)+" "+currency,alignment:Alignment.topRight,
                     fontSize:15,
                     color:ColorsManager.black,
                   ),

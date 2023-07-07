@@ -16,6 +16,18 @@ class getAdsLoadingState extends PatientStates{
 }
 
 
+class GetCountryPriceSuccessState extends PatientStates{
+}
+
+class GetCountryPriceLoadingState extends PatientStates{
+}
+
+class GetCountryPriceErrorState extends PatientStates{
+  String error;
+
+  GetCountryPriceErrorState({required this.error});
+}
+
 
 class GetCountrySuccessState extends PatientStates{
 

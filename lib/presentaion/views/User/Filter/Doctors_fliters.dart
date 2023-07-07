@@ -23,7 +23,7 @@ import '../doctors/doctor-details_view.dart';
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..getAllDoctors(cat2),
+        create: (BuildContext context) => PatientCubit()..getPriceCountry()..getAllDoctors(cat2),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
             listener: (context, state) {
@@ -225,75 +225,18 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit,String cat,
                       ),
                     ),
                     onTap: () {
-                      Get.to(DoctorDetailsView(listApp[index]));
+                      Get.to(DoctorDetailsView(listApp[index],cubit.countryPrice));
                     },
                   ),
                 );
               }
               if(list.isEmpty){
                return const SizedBox(height: 2,);
-          //       return    Container(
-          //         color:Colors.white,
-          //         child:
-          //
-          //         Center(
-          //           child:
-          //
-          //           Column(
-          //             mainAxisAlignment:MainAxisAlignment.center,
-          //             crossAxisAlignment: CrossAxisAlignment.center,
-          //             children: [
-          //
-          //               SizedBox(
-          //                 height:260,
-          //                 child:Image.asset("assets/images/data.png"),
-          //               ),
-          //               const SizedBox(height: 11,),
-          //               const Custom_Text(
-          //                 text: 'القسم لا يحتوي علي بيانات الان ',
-          //                 fontSize: 22,
-          //                 color:Colors.black,
-          //                 alignment:Alignment.center,
-          //               ),
-          //               const SizedBox(height: 400,),
-          //
-          //             ],
-          //           ),
-          //         ),
-          //       );
+
               }
               else{
                 return const SizedBox(height: 2,);
-                // return    Container(
-                //   color:Colors.white,
-                //   child:
-                //
-                //   Center(
-                //     child:
-                //
-                //     Column(
-                //       mainAxisAlignment:MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       children: [
-                //
-                //         SizedBox(
-                //           height:260,
-                //           child:Image.asset("assets/images/data.png"),
-                //         ),
-                //         const SizedBox(height: 11,),
-                //         const Custom_Text(
-                //           text: 'القسم لا يحتوي علي بيانات الان ',
-                //           fontSize: 22,
-                //           color:Colors.black,
-                //           alignment:Alignment.center,
-                //         ),
-                //         const SizedBox(height: 400,),
-                //
-                //       ],
-                //     ),
-                //   ),
-                // );
-              //  return const SizedBox(height: 2,);
+
               }
 
             }),

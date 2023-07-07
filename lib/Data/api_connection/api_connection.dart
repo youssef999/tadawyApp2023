@@ -1,6 +1,7 @@
 
  class API {
   static const hostConnection =
+  //'https://192.168.1.14/tdawa';
       'https://tadawiapp.com/tdawa';
     //'https://192.168.1.14/tdawa';
       //'http://192.168.1.5/tdawa';
@@ -42,6 +43,7 @@
   static const allCat = '$hostConnection/doctor/cat.php';
   static const addBooking = '$hostConnection/doctor/add_booking.php';
   static const ChangeBookingStatus = '$hostConnection/doctor/update_booking_status.php';
+  static const GetPriceCountry = '$hostConnection/doctor/get_price_country.php';
   static const getBooking = '$hostConnection/doctor/get_booking.php';
   static const SEARCH = '$hostConnection/doctor/search.php';
   static const SEARCHFilters = '$hostConnection/doctor/search_filters.php';

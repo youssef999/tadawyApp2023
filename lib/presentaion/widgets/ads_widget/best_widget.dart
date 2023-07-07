@@ -78,12 +78,6 @@ autoPlayAnimationDuration: Duration(milliseconds: 10),
                           colors: [
                             Colors.transparent,
                             Colors.transparent
-                            // ColorsManager.primary5,
-                            // ColorsManager.primary5,
-                            // ColorsManager.primary5,
-                            // ColorsManager.primary6,
-                            // ColorsManager.primary5,
-                            //  Colors.blue,
                           ],
 
                         )

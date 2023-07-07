@@ -24,9 +24,13 @@ class ChangePasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-        toolbarHeight: 2,
-        backgroundColor:ColorsManager.primary,
+      appBar: AppBar(
+        toolbarHeight: 50,
+        backgroundColor: ColorsManager.primary,
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+        ),onPressed:(){
+          Get.back();
+        },),
       ),
       body:Padding(
         padding: const EdgeInsets.all(22.0),

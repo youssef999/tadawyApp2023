@@ -12,29 +12,37 @@ import 'package:get_storage/get_storage.dart';
 import '../Ads/ads_details_view.dart';
 import 'doctor-details_view.dart';
 
-class AllDoctorsView extends StatelessWidget {
+class AllDoctorsView extends StatefulWidget {
   String cat2;
 
   AllDoctorsView(this.cat2, {super.key});
 
   @override
+  State<AllDoctorsView> createState() => _AllDoctorsViewState();
+}
+
+class _AllDoctorsViewState extends State<AllDoctorsView> {
+  @override
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..getAllDoctors(cat2)..getAllAds(),
+        create: (BuildContext context) => PatientCubit()
+        ..getPriceCountry()
+          ..getAllDoctors(widget.cat2)..getAllAds(),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
             listener: (context, state) {
-              PatientCubit cubit = PatientCubit.get(context);
+            //  PatientCubit cubit = PatientCubit.get(context);
               if(state is getAdsSuccessState){
                 print ("SUCCESS");
-                print(cubit.adsList2.length);
+              //  print(cubit.adsList2.length);
               }
             },
 
             builder: (context, state) {
 
               PatientCubit cubit = PatientCubit.get(context);
+
 
               return Scaffold(
                 backgroundColor:  ColorsManager.primaryx,
@@ -48,7 +56,7 @@ class AllDoctorsView extends StatelessWidget {
                   child: ListView(
                     children: [
 
-                      if(cat2=='طبيب')
+                      if(widget.cat2=='طبيب')
                       Container(
                         color: ColorsManager.primary,
                         child: Column(
@@ -68,7 +76,7 @@ class AllDoctorsView extends StatelessWidget {
                           ],
                         ),
                       ),
-                     if(cat2=='مستشفي')
+                     if(widget.cat2=='مستشفي')
                         Container(
                           color:ColorsManager.primary,
                           child: Column(
@@ -88,7 +96,7 @@ class AllDoctorsView extends StatelessWidget {
                             ],
                           ),
                         ),
-                      if(cat2=='صيدلية')
+                      if(widget.cat2=='صيدلية')
                         Container(
                           color:ColorsManager.primary,
                           child: Column(
@@ -109,7 +117,8 @@ class AllDoctorsView extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      AllDoctorsWidget(cubit.doctorList,cubit),
+
+                      AllDoctorsWidget(cubit.doctorList,cubit,cubit.countryPrice),
                     ],
                   ),
                 ),
@@ -119,14 +128,15 @@ class AllDoctorsView extends StatelessWidget {
   }
 }
 
-Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
+Widget AllDoctorsWidget (List<DoctorModel> listApp,PatientCubit cubit,double price) {
 
-
-  final box=GetStorage();
+final box=GetStorage();
  String country= box.read('country')??'x';
+ String currency= box.read('currency')??'x';
  print("COUNTRY");
  print(country);
-  List<DoctorModel>list=[];
+ print("LIST LENGTH=="+listApp.length.toString());
+//  List<DoctorModel>list=[];
  if(listApp.isNotEmpty){
    return SingleChildScrollView(
      child: Container(
@@ -139,157 +149,275 @@ Widget AllDoctorsWidget(List<DoctorModel> listApp,PatientCubit cubit) {
            physics: const NeverScrollableScrollPhysics(),
            itemCount: listApp.length,
            itemBuilder: (context, index) {
+             return Column(
+               children: [
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: InkWell(
+                     child: Container(
+                       decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(15),
+                           color: Colors.white),
+                       child: Directionality(
+                         textDirection: TextDirection.rtl,
+                         child: Column(
+                           children: [
+                             const SizedBox(
+                               height: 12,
+                             ),
+                             Row(
+                               children: [
 
-             if(listApp[index].country==country){
-               list.add(listApp[index]);
-               return Column(
-                 children: [
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: InkWell(
-                       child: Container(
-                         decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(15),
-                             color: Colors.white),
-                         child: Directionality(
-                           textDirection: TextDirection.rtl,
-                           child: Column(
-                             children: [
-                               const SizedBox(
-                                 height: 12,
-                               ),
-                               Row(
-                                 children: [
+                                 (listApp[index].doctor_image!.length>4)?
+                                 SizedBox(
+                                     height: 90,
+                                     width: MediaQuery.of(context).size.width * 0.30,
+                                     child: Image.network(
+                                         listApp[index].doctor_image.toString())):
+                                 SizedBox(
+                                   height: 90,
+                                   width: MediaQuery.of(context).size.width * 0.30,
+                                   child:Image.asset('assets/images/doc.png'),
+                                 ),
 
-                                   (listApp[index].doctor_image!.length>4)?
-                                   SizedBox(
-                                       height: 90,
-                                       width: MediaQuery.of(context).size.width * 0.30,
-                                       child: Image.network(
-                                           listApp[index].doctor_image.toString())):
-                                       SizedBox(
-                                         height: 90,
-                                         width: MediaQuery.of(context).size.width * 0.30,
-                                         child:Image.asset('assets/images/doc.png'),
+                                 const SizedBox(
+                                   width: 16,
+                                 ),
+
+                                 SizedBox(
+                                   // width: MediaQuery.of(context).size.width * 0.3,
+                                   child: Column(
+                                     children: [
+                                       Custom_Text(
+                                         text: listApp[index].doctor_name.toString(),
+                                         color: ColorsManager.black,
+                                         fontSize: 16,
+                                         alignment: Alignment.center,
                                        ),
+                                       const SizedBox(
+                                         height: 10,
+                                       ),
+                                       Custom_Text(
+                                         text: listApp[index].doctor_cat.toString(),
+                                         color: ColorsManager.primary,
+                                         fontSize: 12,
+                                         alignment: Alignment.center,
+                                       ),
+                                       const SizedBox(
+                                         height: 10,
+                                       ),
+                                       Row(
+                                         children: [
+                                           const SizedBox(
+                                             width: 21,
+                                           ),
+                                           Custom_Text(
+                                             text: 'سعر الكشف '.toString(),
+                                             color: Colors.grey,
+                                             fontSize: 14,
+                                             alignment: Alignment.center,
+                                           ),
+                                           const SizedBox(
+                                             width: 12,
+                                           ),
 
-                                   const SizedBox(
-                                     width: 16,
+                                           Custom_Text(
+
+                                             text: (double.parse(listApp[index].price!)/price).toStringAsFixed(1)+" " +currency,
+                                             color: ColorsManager.primary,
+                                             fontSize: 16,
+                                             alignment: Alignment.center,
+                                           ),
+                                         ],
+                                       ),
+                                     ],
                                    ),
-
-                                   SizedBox(
-                                    // width: MediaQuery.of(context).size.width * 0.3,
-                                     child: Column(
-                                       children: [
-                                         Custom_Text(
-                                           text: listApp[index].doctor_name.toString(),
-                                           color: ColorsManager.black,
-                                           fontSize: 16,
-                                           alignment: Alignment.center,
-                                         ),
-                                         const SizedBox(
-                                           height: 10,
-                                         ),
-                                         Custom_Text(
-                                           text: listApp[index].doctor_cat.toString(),
-                                           color: ColorsManager.primary,
-                                           fontSize: 12,
-                                           alignment: Alignment.center,
-                                         ),
-                                         const SizedBox(
-                                           height: 10,
-                                         ),
-                                         Row(
-                                           children: [
-                                             const SizedBox(
-                                               width: 21,
-                                             ),
-                                             Custom_Text(
-                                               text: 'سعر الكشف '.toString(),
-                                               color: Colors.grey,
-                                               fontSize: 14,
-                                               alignment: Alignment.center,
-                                             ),
-                                             const SizedBox(
-                                               width: 12,
-                                             ),
-                                             Custom_Text(
-                                               text: listApp[index].price.toString(),
-                                               color: ColorsManager.primary,
-                                               fontSize: 16,
-                                               alignment: Alignment.center,
-                                             ),
-                                           ],
-                                         ),
-                                       ],
-                                     ),
-                                   ),
+                                 ),
 
 
-                                 ],
-                               ),
-                               const SizedBox(
-                                 height: 12,
-                               ),
+                               ],
+                             ),
+                             const SizedBox(
+                               height: 12,
+                             ),
 
-                             ],
-                           ),
+                           ],
                          ),
                        ),
-                       onTap: () {
-                         Get.to(DoctorDetailsView(listApp[index]));
-                       },
                      ),
-                   ),
-                   SizedBox(height: 10,),
-                   (index==0)?NewAdsWidget(
-                       cubit.doctorList,cubit.adsList,cubit,0
-                   ):SizedBox(height: 1,),
-
-                   (index==2)?NewAdsWidget(
-                       cubit.doctorList,  cubit.adsList,cubit,0
-                   ):SizedBox(height: 1,),
-                   (index==5)?NewAdsWidget(
-                       cubit.doctorList,   cubit.adsList,cubit,0
-                   ):SizedBox(height: 1,),
-
-                 ],
-               );
-             }
-             if(list.isEmpty){
-               return    Container(
-                 color:Colors.white,
-                 child:
-
-                 Center(
-                   child:
-
-                   Column(
-                     mainAxisAlignment:MainAxisAlignment.center,
-                     crossAxisAlignment: CrossAxisAlignment.center,
-                     children: [
-
-                       SizedBox(
-                         height:260,
-                         child:Image.asset("assets/images/data.png"),
-                       ),
-                       const SizedBox(height: 11,),
-                       const Custom_Text(
-                         text: 'القسم لا يحتوي علي بيانات الان ',
-                         fontSize: 22,
-                         color:Colors.black,
-                         alignment:Alignment.center,
-                       ),
-                       const SizedBox(height: 400,),
-
-                     ],
+                     onTap: () {
+                       Get.to(DoctorDetailsView(listApp[index],price));
+                     },
                    ),
                  ),
-               );
-             }
-             else{
-               return const SizedBox(height: 2,);
-             }
+                 SizedBox(height: 10,),
+                 (index==0)?NewAdsWidget(
+                     cubit.doctorList,cubit.adsList,cubit,0
+                 ):SizedBox(height: 1,),
+
+                 (index==2)?NewAdsWidget(
+                     cubit.doctorList,  cubit.adsList,cubit,0
+                 ):SizedBox(height: 1,),
+                 (index==5)?NewAdsWidget(
+                     cubit.doctorList,   cubit.adsList,cubit,0
+                 ):SizedBox(height: 1,),
+
+               ],
+             );
+             // if(listApp[index].country==country){
+             //
+             // //  list.add(listApp[index]);
+             //
+             //   return Column(
+             //     children: [
+             //       Padding(
+             //         padding: const EdgeInsets.all(8.0),
+             //         child: InkWell(
+             //           child: Container(
+             //             decoration: BoxDecoration(
+             //                 borderRadius: BorderRadius.circular(15),
+             //                 color: Colors.white),
+             //             child: Directionality(
+             //               textDirection: TextDirection.rtl,
+             //               child: Column(
+             //                 children: [
+             //                   const SizedBox(
+             //                     height: 12,
+             //                   ),
+             //                   Row(
+             //                     children: [
+             //
+             //                       (listApp[index].doctor_image!.length>4)?
+             //                       SizedBox(
+             //                           height: 90,
+             //                           width: MediaQuery.of(context).size.width * 0.30,
+             //                           child: Image.network(
+             //                               listApp[index].doctor_image.toString())):
+             //                           SizedBox(
+             //                             height: 90,
+             //                             width: MediaQuery.of(context).size.width * 0.30,
+             //                             child:Image.asset('assets/images/doc.png'),
+             //                           ),
+             //
+             //                       const SizedBox(
+             //                         width: 16,
+             //                       ),
+             //
+             //                       SizedBox(
+             //                        // width: MediaQuery.of(context).size.width * 0.3,
+             //                         child: Column(
+             //                           children: [
+             //                             Custom_Text(
+             //                               text: listApp[index].doctor_name.toString(),
+             //                               color: ColorsManager.black,
+             //                               fontSize: 16,
+             //                               alignment: Alignment.center,
+             //                             ),
+             //                             const SizedBox(
+             //                               height: 10,
+             //                             ),
+             //                             Custom_Text(
+             //                               text: listApp[index].doctor_cat.toString(),
+             //                               color: ColorsManager.primary,
+             //                               fontSize: 12,
+             //                               alignment: Alignment.center,
+             //                             ),
+             //                             const SizedBox(
+             //                               height: 10,
+             //                             ),
+             //                             Row(
+             //                               children: [
+             //                                 const SizedBox(
+             //                                   width: 21,
+             //                                 ),
+             //                                 Custom_Text(
+             //                                   text: 'سعر الكشف '.toString(),
+             //                                   color: Colors.grey,
+             //                                   fontSize: 14,
+             //                                   alignment: Alignment.center,
+             //                                 ),
+             //                                 const SizedBox(
+             //                                   width: 12,
+             //                                 ),
+             //
+             //                                 Custom_Text(
+             //
+             //                                   text: (double.parse(listApp[index].price!)/price).toStringAsFixed(1)+" " +currency,
+             //                                   color: ColorsManager.primary,
+             //                                   fontSize: 16,
+             //                                   alignment: Alignment.center,
+             //                                 ),
+             //                               ],
+             //                             ),
+             //                           ],
+             //                         ),
+             //                       ),
+             //
+             //
+             //                     ],
+             //                   ),
+             //                   const SizedBox(
+             //                     height: 12,
+             //                   ),
+             //
+             //                 ],
+             //               ),
+             //             ),
+             //           ),
+             //           onTap: () {
+             //             Get.to(DoctorDetailsView(listApp[index],price));
+             //           },
+             //         ),
+             //       ),
+             //       SizedBox(height: 10,),
+             //       (index==0)?NewAdsWidget(
+             //           cubit.doctorList,cubit.adsList,cubit,0
+             //       ):SizedBox(height: 1,),
+             //
+             //       (index==2)?NewAdsWidget(
+             //           cubit.doctorList,  cubit.adsList,cubit,0
+             //       ):SizedBox(height: 1,),
+             //       (index==5)?NewAdsWidget(
+             //           cubit.doctorList,   cubit.adsList,cubit,0
+             //       ):SizedBox(height: 1,),
+             //
+             //     ],
+             //   );
+             // }
+             // // if(list.isEmpty){
+             // //   return    Container(
+             // //     color:Colors.white,
+             // //     child:
+             // //
+             // //     Center(
+             // //       child:
+             // //
+             // //       Column(
+             // //         mainAxisAlignment:MainAxisAlignment.center,
+             // //         crossAxisAlignment: CrossAxisAlignment.center,
+             // //         children: [
+             // //
+             // //           SizedBox(
+             // //             height:260,
+             // //             child:Image.asset("assets/images/data.png"),
+             // //           ),
+             // //           const SizedBox(height: 11,),
+             // //           const Custom_Text(
+             // //             text: 'القسم لا يحتوي علي بيانات الان ',
+             // //             fontSize: 22,
+             // //             color:Colors.black,
+             // //             alignment:Alignment.center,
+             // //           ),
+             // //           const SizedBox(height: 400,),
+             // //
+             // //         ],
+             // //       ),
+             // //     ),
+             // //   );
+             // // }
+             // else{
+             //   return const SizedBox(height: 2,);
+             // }
 
            }),
      ),

@@ -35,7 +35,7 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..searchData(widget.name.text),
+        create: (BuildContext context) => PatientCubit()..getPriceCountry()..searchData(widget.name.text),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
         listener: (context, state) {
@@ -181,7 +181,7 @@ Widget SearchDataWidget(List<DoctorModel> listApp,PatientCubit cubit) {
           ),
         ),
         onTap: () {
-          Get.to(DoctorDetailsView(listApp[index]));
+          Get.to(DoctorDetailsView(listApp[index],cubit.countryPrice));
         },
       ),
     );

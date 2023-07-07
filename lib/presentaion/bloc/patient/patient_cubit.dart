@@ -35,7 +35,7 @@ class PatientCubit extends Cubit<PatientStates> {
   List<Filter> searchFilter = [];
   List<Cat> catList = [];
   List<Ads>newList=[];
-
+  double countryPrice=0.0;
 
   Set<Places> uniquePlaces = Set<Places>();
 
@@ -56,6 +56,46 @@ class PatientCubit extends Cubit<PatientStates> {
 
 
   Country ? country;
+
+  Future<double> getPriceCountry() async{
+
+    print("GET COUNTRY PRICE");
+    final box = GetStorage();
+
+    String country = box.read('country') ?? 'x';
+
+    try{
+      emit(GetCountryPriceLoadingState());
+      var res =await http.post(Uri.parse(API.GetPriceCountry),body:{
+        'name':country
+      },
+      );
+
+      if(res.statusCode==200){
+        print(res.bodyBytes);
+        var responseBody =jsonDecode(res.body);
+        if(responseBody["success"]==true) {
+
+          print(responseBody['Data']);
+          print(responseBody['Data']['price']);
+          countryPrice=double.parse(responseBody['Data']['price'].toString());
+        }
+
+        emit(GetCountryPriceSuccessState());
+      }
+      else{
+        emit(GetCountryPriceErrorState(error: 'error'));
+      }
+    }
+    catch(e){
+      emit(GetCountryPriceErrorState(error: e.toString()));
+    }
+
+    print("PRICE COUNTRY===="+countryPrice.toString());
+
+    return countryPrice;
+  }
+
 
   Future <List<Country>> getAllCountries()async {
 
@@ -101,8 +141,10 @@ class PatientCubit extends Cubit<PatientStates> {
     print("CCCC$country");
     try {
       emit(getAdsLoadingState());
-      var res = await http.get(
-        Uri.parse(API.ads));
+      var res = await http.post(
+        Uri.parse(API.ads),body:{
+          "country":country
+      });
       print(res.body);
       if (res.statusCode == 200) {
         print("ADS 200");
@@ -136,14 +178,20 @@ class PatientCubit extends Cubit<PatientStates> {
   }
 
   Future<List<Ads>> getAllAds2() async {
+    print("ALL ADS");
+    final box = GetStorage();
+    String country = box.read('country') ?? 'x';
+    print("CCCC$country");
     print("ALL ADS222222222");
     // final box = GetStorage();
     // String country = box.read('country') ?? 'x';
     // print("CCCC$country");
     try {
       emit(getAdsLoadingState());
-      var res = await http.get(
-        Uri.parse(API.ads2),
+      var res = await http.post(
+        Uri.parse(API.ads2),body: {
+        "country":country
+      },
       );
       print("SUC..............................");
       print(res.body);
@@ -411,8 +459,10 @@ class PatientCubit extends Cubit<PatientStates> {
 
     try {
       emit(getBestOffersLoadingState());
-      var res = await http.get(
-        Uri.parse(API.Best),
+      var res = await http.post(
+        Uri.parse(API.Best),body:{
+          "country":country
+      },
       );
       print(res.body);
       if (res.statusCode == 200) {
@@ -470,11 +520,16 @@ class PatientCubit extends Cubit<PatientStates> {
 
 
   Future<List<DoctorModel>> getTopDoctors() async {
+    final box=GetStorage();
+    String c=box.read('country')??"";
     print("TOP DOCTORS...................................");
+    print("$c");
     try {
       emit(TopDoctorsLoadingState());
-      var res = await http.get(
-        Uri.parse(API.TopDoctors),
+      var res = await http.post(
+        Uri.parse(API.TopDoctors),body:{
+          "country":c
+      },
       );
       if (res.statusCode == 200) {
         print(res.body);
@@ -485,7 +540,7 @@ class PatientCubit extends Cubit<PatientStates> {
           (responseBody['Data'] as List).forEach((eachRecord) {
             topDoctorList.add(DoctorModel.fromJson(eachRecord));
           });
-          print("TOP===$doctorList");
+          print("TOP===$topDoctorList");
         }
         emit(TopDoctorsSuccessState());
       } else {
@@ -501,12 +556,17 @@ class PatientCubit extends Cubit<PatientStates> {
   }
 
   Future<List<DoctorModel>> getAllDoctors(String cat2) async {
+
+    print("GET ALL DOCTORS");
+    final box=GetStorage();
+    String country=box.read('country')??"";
     try {
       emit(getDoctorsLoadingState());
       var res = await http.post(
         Uri.parse(API.allDoctorsData),
         body: {
           'cat2': cat2,
+          "country":country
         },
       );
       if (res.statusCode == 200) {
@@ -517,8 +577,9 @@ class PatientCubit extends Cubit<PatientStates> {
           print(responseBody['Data']);
           (responseBody['Data'] as List).forEach((eachRecord) {
             doctorList.add(DoctorModel.fromJson(eachRecord));
-          });
-          print("List===$doctorList");
+          }
+          );
+         // print("List===$doctorList");
         }
         emit(getDoctorsSuccessState());
       } else {
@@ -526,7 +587,7 @@ class PatientCubit extends Cubit<PatientStates> {
         emit(getDoctorsErrorState());
       }
     } catch (e) {
-      print("Error===");
+      print("GET DOCTOR Error===");
       print(e.toString());
       emit(getDoctorsErrorState());
     }

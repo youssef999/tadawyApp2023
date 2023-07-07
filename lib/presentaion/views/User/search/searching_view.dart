@@ -15,7 +15,8 @@ import '../doctors/doctor-details_view.dart';
 
 class SearchLayout extends StatefulWidget {
   String txt;
-   SearchLayout({Key? key,required this.txt}) : super(key: key);
+  double price;
+   SearchLayout({Key? key,required this.txt,required this.price}) : super(key: key);
 
   @override
   State<SearchLayout> createState() => _SearchLayoutState();
@@ -382,7 +383,7 @@ if(widget.txt!=''){
                               ],
                             ),
                             onTap: () {
-                              Get.to(DoctorDetailsView(displayList[index]));
+                              Get.to(DoctorDetailsView(displayList[index],widget.price));
                             },
                           ),
                         );

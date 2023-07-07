@@ -7,22 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../resources/assets_manager.dart';
 
-class AppView extends StatelessWidget {
 
+ class AppView extends StatelessWidget {
 
   String type;
-
 
   AppView({required this.type});
 
   @override
   Widget build(BuildContext context) {
+
     final box=GetStorage();
 
     String c=box.read('country');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsManager.primary,
@@ -41,16 +41,23 @@ class AppView extends StatelessWidget {
             child: Column(
               children: [
                 InkWell(
-                  child: Row(
+                  child: Column(
                     children: [
                       SizedBox(width: 10,),
-                      Icon(Icons.language,size:33,color:Colors.blue[400],),
-                      SizedBox(width: 30,),
-                      Custom_Text(text: 'الدولة',color:Colors.black,fontSize: 22,alignment:Alignment.topRight,),
-                      SizedBox(width: MediaQuery.of(context).size.width*0.33,),
-                      Custom_Text(text: c,color:Colors.blue[400]!,fontSize: 22,alignment:Alignment.topRight,),
-                      SizedBox(width:14,),
-                      Icon(Icons.arrow_forward_ios,size: 21,color:Colors.blue[400],)
+
+                      Row(
+                        children: [
+                          Icon(Icons.language,size:33,color:Colors.blue[400],),
+                          SizedBox(width: 20,),
+                          Custom_Text(text: 'الدولة',color:Colors.black,fontSize: 22,alignment:Alignment.topRight,),
+                        ],
+                      ),
+                      SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 34.0),
+                        child: Custom_Text(text: c,color:Colors.black,fontSize: 23,alignment:Alignment.topRight,),
+                      ),
+
                     ],
                   ),
                   onTap:(){

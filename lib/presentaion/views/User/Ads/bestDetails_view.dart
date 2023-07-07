@@ -91,7 +91,7 @@ Ads ad;
                         fontSize: 20,
                         alignment:Alignment.topRight,
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width*0.49,),
+                      SizedBox(width: MediaQuery.of(context).size.width*0.32,),
                       Custom_Text(
                         alignment:Alignment.topRight,
                         text: ad.doctor_cat.toString(),
@@ -115,7 +115,6 @@ Ads ad;
 
                   Row(
                     children: [
-
                       Icon(Icons.phone,color:ColorsManager.primary,),
                       const SizedBox(width: 20,),
                       Custom_Text(text:ad.doctor_phone.toString(),alignment:Alignment.topRight,
@@ -126,8 +125,6 @@ Ads ad;
                     ],
                   ),
                   const SizedBox(height: 15,),
-
-
                   (ad.address.toString()!='')?
 
                   Row(
@@ -189,7 +186,6 @@ Ads ad;
 
                     ],
                   ) :const SizedBox(),
-
 
                   const SizedBox(height: 15,),
                   if(ad.location2!='')
@@ -274,8 +270,6 @@ Ads ad;
                   ),
                   const SizedBox(height: 25,),
 
-
-
                   const Padding(
                     padding: EdgeInsets.only(left:36.0,right:36.0),
                     child: Divider(
@@ -302,14 +296,12 @@ Ads ad;
                   ),
                   const SizedBox(height: 15,),
 
-
-
-
                   Custom_Text(text: ad.doctor_info.toString(),alignment:Alignment.center,
                     fontSize:15,
                     color:ColorsManager.black,
                   ),
                   const SizedBox(height: 22,),
+
                   Row(
                     children: [
 
@@ -326,7 +318,6 @@ Ads ad;
 
                     ],
                   ),
-
                   const SizedBox(height: 12,),
                   Custom_Text(text: ad.doctor_degree.toString(),alignment:Alignment.center,
                     fontSize:15,
@@ -350,14 +341,13 @@ Ads ad;
                 ],
               ),
             ),
-
-
           ],
         ),
       ),
     );
   }
 }
+
 url(String url)async{
 
   String url(){

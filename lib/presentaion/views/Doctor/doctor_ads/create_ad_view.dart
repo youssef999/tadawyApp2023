@@ -56,11 +56,14 @@ class CreateAdView extends StatelessWidget {
 
      return Scaffold(
        backgroundColor: Colors.grey[200],
-       appBar: AppBar(
-         backgroundColor:ColorsManager.primary,
-         toolbarHeight: 4,
-         elevation: 0,
-       ),
+         appBar: AppBar(
+           toolbarHeight: 50,
+           backgroundColor: ColorsManager.primary,
+           leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+           ),onPressed:(){
+             Get.back();
+           },),
+         ),
        body:Padding(
          padding: const EdgeInsets.all(25.0),
          child: ListView(

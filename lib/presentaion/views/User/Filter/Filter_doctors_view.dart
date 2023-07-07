@@ -26,7 +26,7 @@ FiltersDoctorView({required this.place2});
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..getAllFilters(place2),
+        create: (BuildContext context) => PatientCubit()..getPriceCountry()..getAllFilters(place2),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
             listener: (context, state) {
@@ -167,7 +167,8 @@ Widget AllFiltersWidget(List<DoctorModel> listApp,PatientCubit cubit,String plac
                   onTap: () {
 
                     Get.to(DoctorDetailsView(
-                        listApp[index]
+                        listApp[index],
+                      cubit.countryPrice
                     ));
 
                     // Get.to(FilterDoctorsView(

@@ -36,9 +36,9 @@ class _UserHomeViewState extends State<UserHomeView> {
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return  BlocProvider(
-        create:(BuildContext context)=>PatientCubit()
+        create:(BuildContext context)=>PatientCubit()..getPriceCountry()
           ..getAllAds()..getAllAds2()
-          ..getAllCat()..getBestOffers()..getTopDoctors()..getAllCountries(),
+          ..getAllCat()..getTopDoctors()..getAllCountries(),
 
         child: BlocConsumer<PatientCubit,PatientStates>(
             listener:(context,state){
@@ -128,13 +128,16 @@ class _UserHomeViewState extends State<UserHomeView> {
                         ),
                       );
                     }).toList(),
-                    onChanged: (item) {
+                    onChanged: (item) async {
                       final box=GetStorage();
+                    await  box.remove('country');
+                    await  box.remove('currency');
                       setState(() {
                         patientCubit.country = item!;
                       });
                       box.write('country',patientCubit.country!.name.toString());
                       box.write('countryCode',patientCubit.country!.countryCode.toString());
+                      box.write('currency',patientCubit.country!.currency.toString());
                       Get.offAll(SplashView());
                     },
 
@@ -172,6 +175,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           onTap:(){
                             Get.to( SearchLayout(
                               txt: patientCubit.searchController.text,
+                              price: patientCubit.countryPrice,
                             ));
                           },
                         ),
@@ -207,7 +211,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                   ,alignment:Alignment.center),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: CatWidget(patientCubit.catList),
+                child: CatWidget(patientCubit.catList,patientCubit.countryPrice),
               ),
 
               const SizedBox(height: 10,),
@@ -220,18 +224,18 @@ class _UserHomeViewState extends State<UserHomeView> {
               AdsSlider2(patientCubit.adsList),
 
               const SizedBox(height: 20,),
-
-              (patientCubit.bestList.length>0)?
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(17.0),
-                    child: Custom_Text(text: 'افضل العروض',fontSize: 23,color:Colors.black,alignment:Alignment.topRight),
-                  ),  const SizedBox(height: 20,),
-                  BestSlider(patientCubit.bestList),
-
-                ],
-              ):SizedBox(),
+              //
+              // (patientCubit.bestList.length>0)?
+              // Column(
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.all(17.0),
+              //       child: Custom_Text(text: 'افضل العروض',fontSize: 23,color:Colors.black,alignment:Alignment.topRight),
+              //     ),  const SizedBox(height: 20,),
+              //     BestSlider(patientCubit.bestList),
+              //
+              //   ],
+              // ):SizedBox(),
 
               const SizedBox(height: 30,),
 
@@ -246,7 +250,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                   const SizedBox(height: 20,),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TopDoctorsWidget(patientCubit.topDoctorList),
+                    child: TopDoctorsWidget(patientCubit.topDoctorList,patientCubit.countryPrice),
                   ),
                 ],
               ):SizedBox(),
@@ -265,7 +269,7 @@ class _UserHomeViewState extends State<UserHomeView> {
 }
 
 
- Widget CatWidget(List<Cat> catList){
+ Widget CatWidget(List<Cat> catList,double price){
 
   double height=290;
 
@@ -357,11 +361,8 @@ class _UserHomeViewState extends State<UserHomeView> {
 
 }
 
- Widget TopDoctorsWidget(List<DoctorModel> catList) {
+ Widget TopDoctorsWidget(List<DoctorModel> catList,double price) {
 
-  final box=GetStorage();
-  String country= box.read('country')??'x';
-  List<DoctorModel>list=[];
 
   if(catList.isNotEmpty){
     return SingleChildScrollView(
@@ -378,115 +379,107 @@ class _UserHomeViewState extends State<UserHomeView> {
             //  physics: const NeverScrollableScrollPhysics(),
               itemCount: catList.length,
               itemBuilder: (context, index) {
+                return InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: Container(
+                        height: 222,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.white70),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Column(
+                            children: [
 
-                if(catList[index].country==country){
-                  list.add(catList[index]);
+                              // const SizedBox(
+                              //   height: 12,
+                              // ),
+                              Container(
+                                  color:ColorsManager.primary,
+                                  height: 106,
+                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  child: Image.network(
+                                    catList[index].doctor_image.toString(),
+                                    fit:BoxFit.scaleDown,
+                                  )),
+                              const SizedBox(
+                                height: 30,
+                              ),
 
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: Container(
-                          height: 222,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.white70),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Column(
-                              children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  children: [
+                                    Custom_Text(
+                                      text: catList[index].doctor_name.toString(),
+                                      color: ColorsManager.black,
+                                      fontSize: 20,
+                                      alignment: Alignment.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    RatingBar.builder(
+                                      itemSize:12,
+                                      initialRating:double.parse( catList[index].rate.toString()),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      unratedColor:Colors.grey,
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 13,
+                                    ),
+                                    Custom_Text(text:catList[index].rate.toString(),
+                                      fontSize:16,
+                                      color:Colors.black,
+                                      alignment:Alignment.center,
 
-                                // const SizedBox(
-                                //   height: 12,
-                                // ),
-                                Container(
-                                    color:ColorsManager.primary,
-                                    height: 106,
-                                    width: MediaQuery.of(context).size.width * 0.5,
-                                    child: Image.network(
-                                      catList[index].doctor_image.toString(),
-                                      fit:BoxFit.scaleDown,
-                                    )),
-                                const SizedBox(
-                                  height: 30,
+                                    )
+
+
+                                  ],
                                 ),
+                              ),
 
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.2,
-                                  child: Column(
-                                    children: [
-                                      Custom_Text(
-                                        text: catList[index].doctor_name.toString(),
-                                        color: ColorsManager.black,
-                                        fontSize: 20,
-                                        alignment: Alignment.center,
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      RatingBar.builder(
-                                        itemSize:12,
-                                        initialRating:double.parse( catList[index].rate.toString()),
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 1.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        unratedColor:Colors.grey,
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 13,
-                                      ),
-                                      Custom_Text(text:catList[index].rate.toString(),
-                                        fontSize:16,
-                                        color:Colors.black,
-                                        alignment:Alignment.center,
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.1),
 
-                                      )
-
-
-                                    ],
-                                  ),
-                                ),
-
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.1),
-
-                              ],
-                            ),
+                            ],
                           ),
                         ),
-                        onTap: () {
-                          Get.to(DoctorDetailsView(
-                              catList[index]
-                          ));
-                          // print(AllDoctorsView(catList[index].cat2));
-                          // Get.to(AllDoctorsView(catList[index].cat2));
-
-                        },
                       ),
+                      onTap: () {
+                        Get.to(DoctorDetailsView(
+                            catList[index],
+                            price
+
+                        ));
+                        // print(AllDoctorsView(catList[index].cat2));
+                        // Get.to(AllDoctorsView(catList[index].cat2));
+
+                      },
                     ),
-                    onTap:(){
-                      Get.to(DoctorDetailsView(
-                          catList[index]
-                      ));
-                    },
-                  );
-                }
-                if(list.isEmpty){
-                  return const SizedBox(height: 2,);
-                }
-                else{
-                  return const SizedBox(height: 2,);
-                }
+                  ),
+                  onTap:(){
+                    Get.to(DoctorDetailsView(
+                        catList[index],
+                        price
+                    ));
+                  },
+                );
 
               }),
    ),

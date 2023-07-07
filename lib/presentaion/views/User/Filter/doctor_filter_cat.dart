@@ -26,7 +26,7 @@ class FilterCatDoctorView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => PatientCubit()..getAllCatFilters(doctorCat),
+        create: (BuildContext context) => PatientCubit()..getPriceCountry()..getAllCatFilters(doctorCat),
         child: BlocConsumer<PatientCubit, PatientStates>(
 
             listener: (context, state) {
@@ -170,7 +170,8 @@ Widget AllFiltersWidget(List<DoctorModel> listApp,PatientCubit cubit,String plac
                   ),
                   onTap: () {
                     Get.to(DoctorDetailsView(
-                        listApp[index]
+                        listApp[index],
+                      cubit.countryPrice
                     ));
 
                     // Get.to(FilterDoctorsView(

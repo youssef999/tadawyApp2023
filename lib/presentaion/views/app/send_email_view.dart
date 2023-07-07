@@ -8,6 +8,7 @@ import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:doctors_app/presentaion/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SendEmailView extends StatelessWidget {
@@ -19,15 +20,18 @@ class SendEmailView extends StatelessWidget {
    Widget build(BuildContext context) {
      return Scaffold(
        backgroundColor: Colors.white,
-       appBar: AppBar(
-         backgroundColor: ColorsManager.primary,
-         toolbarHeight: 3,
-       ),
+         appBar: AppBar(
+           toolbarHeight: 50,
+           backgroundColor: ColorsManager.primary,
+           leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+           ),onPressed:(){
+             Get.back();
+           },),
+         ),
        body:Padding(
          padding: const EdgeInsets.all(23.0),
          child: ListView(
-         //  mainAxisAlignment: MainAxisAlignment.start,
-           //crossAxisAlignment: CrossAxisAlignment.start,
+
            children: [
              SizedBox(height: 20,),
              Icon(Icons.email_outlined,size: 120,color:ColorsManager.primary,),

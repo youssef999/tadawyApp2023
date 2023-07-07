@@ -120,7 +120,7 @@ class _PlacesViewState extends State<FilterCatView> {
                                             child: Image.asset(images[index])),
                                         SizedBox(height: 13,),
                                         Center(child:
-                                        Custom_Text(text: cubit.uniqueNames3.elementAt(index),fontSize: 20
+                                        Custom_Text(text: cubit.uniqueNames3.elementAt(index),fontSize: 16
                                           ,alignment: Alignment.center,color:ColorsManager.primary,)
                                         // Text(cubit.uniqueNames3.elementAt(index))),
                                         ),

@@ -21,12 +21,14 @@ class BakaWidget extends StatelessWidget {
   bool sales;
   int numAds;
   String type;
-  BakaWidget({required this.bakaList,required this.type,required this.numAds,required this.sales});
+  double price;
+  BakaWidget({required this.bakaList,required this.price,required this.type,required this.numAds,required this.sales});
 
   @override
   Widget build(BuildContext context) {
 
-
+    final box=GetStorage();
+    String currency=box.read('currency');
     return  Container(
       height: 630,
 
@@ -86,8 +88,8 @@ class BakaWidget extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Custom_Text(
-                                text: bakaList[index].price.toString(),
-                                fontSize:20,
+                                  text: (bakaList[index].price/price).toStringAsFixed(2)+" " +currency,
+                                fontSize:17,
                                 color:Colors.white,
                                 alignment:Alignment.center,
                               ),

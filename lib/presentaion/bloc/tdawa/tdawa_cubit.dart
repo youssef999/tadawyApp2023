@@ -42,12 +42,12 @@ import '../../../domain/models/pay.dart';
   TextEditingController adNameController=TextEditingController();
   TextEditingController idController=TextEditingController();
   TextEditingController adDetailsController=TextEditingController();
-
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
-
   TextEditingController nameController=TextEditingController();
   TextEditingController codeController=TextEditingController();
+  double countryPrice=0.0;
+
 
   var imageLink='';
   final ImagePicker _picker=ImagePicker();
@@ -530,6 +530,46 @@ print("IMAGE====="+imageLink);
     return payList;
   }
 
+  //GetPriceCountry
+
+  Future<double> getPriceCountry() async{
+
+    final box = GetStorage();
+
+    String country = box.read('country') ?? 'x';
+
+    try{
+      emit(GetCountryPriceLoadingState());
+      var res =await http.post(Uri.parse(API.GetPriceCountry),body:{
+        'name':country
+      },
+      );
+
+      if(res.statusCode==200){
+        print(res.bodyBytes);
+        var responseBody =jsonDecode(res.body);
+        if(responseBody["success"]==true) {
+
+          print(responseBody['Data']);
+          print(responseBody['Data']['price']);
+          countryPrice=double.parse(responseBody['Data']['price'].toString());
+        }
+
+        emit(GetCountryPriceSuccessState());
+      }
+      else{
+        emit(GetCountryPriceErrorState(error: 'error'));
+      }
+    }
+    catch(e){
+      emit(GetCountryPriceErrorState(error: e.toString()));
+    }
+
+    print("PRICE COUNTRY===="+countryPrice.toString());
+
+    return countryPrice;
+  }
+
 
 
   Future<List<Baka>> getAllBouquet() async{
@@ -564,9 +604,6 @@ print("IMAGE====="+imageLink);
 
     return bakaList;
   }
-
-
-
 
   Future<List<BakaSub>> getBakaSub() async{
 

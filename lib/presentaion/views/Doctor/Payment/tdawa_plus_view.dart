@@ -6,6 +6,7 @@ import 'package:doctors_app/presentaion/widgets/BAKA/baka_widget.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import '../../../resources/assets_manager.dart';
 
@@ -18,7 +19,7 @@ import '../../../resources/assets_manager.dart';
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-        create:(BuildContext context)=> TdawaCubit()..getAllBouquet(),
+        create:(BuildContext context)=> TdawaCubit()..getPriceCountry()..getAllBouquet(),
         child: BlocConsumer<TdawaCubit,TdawaStates>(
         listener:(context,state){
 
@@ -28,11 +29,14 @@ import '../../../resources/assets_manager.dart';
 
    return Scaffold(
      backgroundColor:Colors.white,
-        appBar:AppBar(
-          elevation: 0,
-          backgroundColor:ColorsManager.primary,
-           toolbarHeight: 5,
-        ),
+     appBar: AppBar(
+       toolbarHeight: 50,
+       backgroundColor: ColorsManager.primary,
+       leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+       ),onPressed:(){
+         Get.back();
+       },),
+     ),
         body:Directionality(
           textDirection: TextDirection.rtl,
           child: ListView(
@@ -69,7 +73,9 @@ import '../../../resources/assets_manager.dart';
               const SizedBox(height: 23,),
 
 
-              BakaWidget(bakaList: tdawaCubit.bakaList,sales:sales,numAds:numAds,type: '',)
+              BakaWidget(bakaList: tdawaCubit.bakaList,sales:sales,numAds:numAds,type: '',
+              price:tdawaCubit.countryPrice
+              )
 
             ],
           ),

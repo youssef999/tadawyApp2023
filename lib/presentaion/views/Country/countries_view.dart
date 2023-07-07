@@ -145,6 +145,7 @@ class _CountriesViewState extends State<CountriesView> {
                                     final box = GetStorage();
 
                                     box.write('country', cubit.country!.name);
+                                    box.write('currency', cubit.country!.currency);
                                     box.write('countryCode', cubit.country!.countryCode);
                                     Get.to(const ChooseView());
                                   })

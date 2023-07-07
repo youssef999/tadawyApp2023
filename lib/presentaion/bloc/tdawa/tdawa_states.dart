@@ -45,6 +45,25 @@ class getPaymentsErrorState extends TdawaStates{
 
 
 
+class GetCountryPriceSuccessState extends TdawaStates{
+}
+
+class GetCountryPriceLoadingState extends TdawaStates{
+}
+
+class GetCountryPriceErrorState extends TdawaStates{
+  String error;
+
+  GetCountryPriceErrorState({required this.error});
+}
+
+
+
+
+
+
+
+
 
 class getAppointmentsSuccessState extends TdawaStates{
 }
@@ -57,6 +76,9 @@ class getAppointmentsErrorState extends TdawaStates{
 
   getAppointmentsErrorState({required this.error});
 }
+
+
+
 class SalesCoinsSuccessState extends TdawaStates{
 
 }

@@ -7,6 +7,7 @@ import 'package:doctors_app/presentaion/pay_mob/wallet_number.dart';
 import 'package:doctors_app/presentaion/pay_mob/wallet_pay.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
 import 'package:doctors_app/presentaion/resources/strings_manager.dart';
+import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,8 +35,12 @@ class ChoosePaymentView extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        toolbarHeight: 1,
+        toolbarHeight: 50,
         backgroundColor: ColorsManager.primary,
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+        ),onPressed:(){
+          Get.back();
+        },),
       ),
       body:ListView(
         children: [
@@ -46,6 +51,10 @@ class ChoosePaymentView extends StatelessWidget {
           ),
           SizedBox(height: 12,),
 
+            Custom_Text(text: 'يتم التحويل الي سعر الجنية المصري',
+            fontSize: 22,alignment: Alignment.center,color:ColorsManager.black,
+            ),
+          SizedBox(height: 12,),
            InkWell(
             child: Padding(
               padding: const EdgeInsets.all(26.0),
@@ -162,10 +171,7 @@ class ChoosePaymentView extends StatelessWidget {
 
      print("PAYMOB FIRST==="+paymobFirstToken);
 
-     getOrderId(price:'1000'
-
-      //   @todo
-     //price
+     getOrderId(price:price
 
          ,email: email,city: city,fname: fname,lname: lname,phonenum: phonenum,type: type);
 

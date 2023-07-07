@@ -2,7 +2,6 @@
 import 'package:doctors_app/presentaion/bloc/tdawa/tdawa_cubit.dart';
 import 'package:doctors_app/presentaion/bloc/tdawa/tdawa_states.dart';
 import 'package:doctors_app/presentaion/const/app_message.dart';
-import 'package:doctors_app/presentaion/pay_mob/modules/payment/doctor_sub_payment/baka_view.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
 import 'package:doctors_app/presentaion/views/Doctor/Payment/tdawa_plus_view.dart';
 import 'package:doctors_app/presentaion/views/Doctor/doctor_ads/create_ad_view.dart';
@@ -16,7 +15,7 @@ import 'package:get/get.dart';
 import '../../../resources/assets_manager.dart';
 import '../Appointments/appointment_view.dart';
 import '../about_baka/baka.dart';
-import '../sales_code/sales_code.dart';
+
 
 class HomeView extends StatelessWidget {
   String type;
@@ -26,7 +25,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     int x=0;
-
     return BlocProvider(
         create: (BuildContext context) => TdawaCubit()..getDoctorData()..getDocotorBoking(),
         child: BlocConsumer<TdawaCubit, TdawaStates>(
@@ -151,8 +149,9 @@ class HomeView extends StatelessWidget {
                       backgroundColor: ColorsManager.primary,
                       toolbarHeight: 110,
                       title:Container(
+                        color: ColorsManager.primary,
                           height: 100,
-                          child: Image.asset(AssetsManager.Logo)),
+                          child: Image.asset('assets/images/logo.png')),
                       centerTitle: true,
                     ),
                     drawer:  MainDrawer(
@@ -216,13 +215,12 @@ class HomeView extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width*0.21,
+                                width: MediaQuery.of(context).size.width*0.19,
                               ),
                               SizedBox(
                                 height: 90,
                                 child: Image.asset(
                                     AssetsManager.Logo
-                                  // fit:BoxFit.cover,
                                 ),
                               )
                             ],

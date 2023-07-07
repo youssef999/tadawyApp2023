@@ -5,13 +5,13 @@ import 'package:doctors_app/presentaion/bloc/tdawa/tdawa_states.dart';
 import 'package:doctors_app/presentaion/const/app_message.dart';
 import 'package:doctors_app/presentaion/pay_mob/modules/payment/doctor_sub_payment/easy_data_view.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
-import 'package:doctors_app/presentaion/views/Doctor/doctor_ads/create_ad_view.dart';
 import 'package:doctors_app/presentaion/views/Doctor/doctor_reg/register_view.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../resources/assets_manager.dart';
 
@@ -25,7 +25,7 @@ import '../../../../resources/assets_manager.dart';
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-        create:(BuildContext context)=>TdawaCubit()..getBakaSub(),
+        create:(BuildContext context)=>TdawaCubit()..getPriceCountry()..getBakaSub(),
         child: BlocConsumer<TdawaCubit,TdawaStates>(
             listener:(context,state){
             },
@@ -72,7 +72,7 @@ import '../../../../resources/assets_manager.dart';
                         ),
                       ),
                       const SizedBox(height: 23,),
-                      BakaSubWidget(bakaList: tdawaCubit.bakaSubList,sales:sales,type: type,)
+                      BakaSubWidget(bakaList: tdawaCubit.bakaSubList,sales:sales,type: type,price:tdawaCubit.countryPrice)
 
                     ],
                   ),
@@ -93,10 +93,15 @@ import '../../../../resources/assets_manager.dart';
   List<BakaSub> bakaList;
   bool sales;
   String type;
-  BakaSubWidget({required this.bakaList,required this.type,required this.sales});
+double price;
+  BakaSubWidget({required this.bakaList,
+    required this.price,
+    required this.type,required this.sales});
 
   @override
   Widget build(BuildContext context) {
+    final box=GetStorage();
+    String currency=box.read('currency');
 
 
     return  Container(
@@ -158,8 +163,8 @@ import '../../../../resources/assets_manager.dart';
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Custom_Text(
-                                text: bakaList[index].price.toString(),
-                                fontSize:20,
+                                text: (bakaList[index].price/price).toStringAsFixed(2)+" " +currency,
+                                fontSize:18,
                                 color:Colors.white,
                                 alignment:Alignment.center,
                               ),

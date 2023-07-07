@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../Doctor/Home/dashboard.dart';
-import '../../Doctor/Payment/all_payments.dart';
 import '../Home/dash_board.dart';
 
 class UserLoginView extends StatefulWidget {
@@ -405,19 +404,7 @@ class _UserLoginViewState extends State<UserLoginView> {
                           ),
 
                           SizedBox(height: 20,),
-                          // InkWell(
-                          //   child: Container(
-                          //     child: Custom_Text(
-                          //       text: 'عمليات الدفع',
-                          //       alignment: Alignment.center,
-                          //       fontSize: 25,
-                          //       color:Colors.black,
-                          //     ),
-                          //   ),
-                          //   onTap:(){
-                          //     Get.to(AllPaymentsView());
-                          //   },
-                          // ),
+
                           SizedBox(height: 20,),
                           Container(
                             height: 190,

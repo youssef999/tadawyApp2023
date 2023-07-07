@@ -26,7 +26,7 @@ Widget showSearchBarWidget(TextEditingController name){
         suffixIcon: IconButton(
           icon:const Icon(Icons.search,color:ColorsManager.purple2, size: 20,) ,
           onPressed:(){
-            Get.to( SearchLayout(txt: '',));
+            Get.to( SearchLayout(txt: '',price: 0.0,));
 
           },
         ),

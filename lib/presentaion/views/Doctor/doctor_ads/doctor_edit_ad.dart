@@ -51,10 +51,13 @@ class _EditViewState extends State<DoctorEditView> {
 
               return Scaffold(
 
-                  appBar:AppBar(
-                    toolbarHeight: 5,
-                    elevation: 0,
-                    backgroundColor:ColorsManager.primary,
+                  appBar: AppBar(
+                    toolbarHeight: 50,
+                    backgroundColor: ColorsManager.primary,
+                    leading: IconButton(icon: Icon(Icons.arrow_back_ios,size: 21,color:ColorsManager.white,
+                    ),onPressed:(){
+                      Get.back();
+                    },),
                   ),
                   body:Padding(
                     padding: const EdgeInsets.all(10.0),

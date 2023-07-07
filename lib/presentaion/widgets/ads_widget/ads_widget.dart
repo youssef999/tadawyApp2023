@@ -16,13 +16,12 @@ import '../../views/User/Ads/ads_details_view.dart';
 
   @override
   Widget build(BuildContext context) {
-    final box=GetStorage();
-    String c=box.read('country')??"x";
+
     List<Ads>newList=[];
     for(int i=0;i<adsList.length;i++){
       DateTime now = DateTime.now();
       DateTime endDate = DateTime.parse(adsList[i].date_end.toString());
-      if(endDate.isAfter(now)&&adsList[i].country==c){
+      if(endDate.isAfter(now)){
         newList.add(adsList[i]);
       }
     }

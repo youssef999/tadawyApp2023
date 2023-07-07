@@ -22,7 +22,6 @@ class DashBoardFragment extends StatelessWidget {
     List<Widget> fragmentScreens = [
       const UserHomeView(),
       const UserBookingView(),
-      //const UserBookingView(),
       const ProfileView(),
       AppView(type: 'user',)
     ];
