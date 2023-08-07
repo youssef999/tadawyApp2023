@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:doctors_app/presentaion/resources/strings_manager.dart';
@@ -12,12 +13,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
  void main() async{
-  Bloc.observer = MyBlocObserver();
+
+   Bloc.observer = MyBlocObserver();
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
  await Firebase.initializeApp();
   configureFirebaseMessaging();
   runApp(const MyApp());
+
  }
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;

@@ -38,12 +38,9 @@ import 'Login.dart';
           child: BlocConsumer<AuthCubit, AuthStates>(
               listener: (context, state) {
 
-                if (state is UserLoginSuccessState) {
-                  // Get.offAll(UserLoginView(
-                  //   cat: 'user',
-                  // ));
-                  appMessage(text: 'تم انشاء الحساب بنجاح');
-
+                if (state is UserLoginSuccessState ) {
+                  Get.offAll(const DashBoardFragment());
+                  appMessage(text: 'تم تسجيل الدخول بنجاح');
                 }
 
                 if (state is UserLoginSuccessState2) {

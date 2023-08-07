@@ -50,12 +50,16 @@ import '../../resources/assets_manager.dart';
                           Icon(Icons.language,size:33,color:Colors.blue[400],),
                           SizedBox(width: 20,),
                           Custom_Text(text: 'الدولة',color:Colors.black,fontSize: 22,alignment:Alignment.topRight,),
+
+                          Padding(
+                            padding: const EdgeInsets.only(right: 22.0),
+                            child: Custom_Text(text: c,color:Colors.black,fontSize: 18,alignment:Alignment.topRight,),
+                          ),
+
+                          Padding(
+                              padding: const EdgeInsets.only(right: 70.0),
+                              child: Icon(Icons.arrow_forward_ios,size: 21,color:Colors.blue[400],))
                         ],
-                      ),
-                      SizedBox(height: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 34.0),
-                        child: Custom_Text(text: c,color:Colors.black,fontSize: 23,alignment:Alignment.topRight,),
                       ),
 
                     ],

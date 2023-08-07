@@ -3,4 +3,5 @@
     <string name="app_name">Tadawy</string>
     <string name="facebook_app_id">973839894058346</string>
     <string name="fb_login_protocol_scheme">fb2af83b7fc4ceaeba01f33e259e183d27</string>
+    <string name="facebook_client_token">fb2af83b7fc4ceaeba01f33e259e183d27</string>
 </resources>

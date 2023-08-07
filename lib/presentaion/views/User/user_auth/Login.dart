@@ -270,9 +270,10 @@ class _UserLoginViewState extends State<UserLoginView> {
                                   ],
                                 ),
                               ),
-                              onTap:(){
+                              onTap:() {
 
                                 print("facebook");
+                                //authCubit.signInWithFacebook();
                                 authCubit.FaceValidateUserEmail ();
                                 //   authCubit.loginFaceBook();
                                 //authCubit.googleValidateUserEmail();

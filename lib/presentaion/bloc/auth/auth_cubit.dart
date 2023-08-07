@@ -9,6 +9,7 @@ import 'package:doctors_app/presentaion/const/app_message.dart';
 import 'package:doctors_app/presentaion/views/sales/sales_code.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fauth;
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -25,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../resources/assets_manager.dart';
 import '../../views/FireBase/otp_view.dart';
+import '../../views/User/user_auth/Login.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AppIntialState());
@@ -147,12 +149,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
                   actions: [
 
-                    // FlatButton(
-                    //   child: Text('Close'),
-                    //   onPressed: () {
-                    //     Navigator.of(context).pop();
-                    //   },
-                    // ),
+
                   ],
                 ),
               ),
@@ -333,13 +330,15 @@ class AuthCubit extends Cubit<AuthStates> {
           // appMessage(text: 'البريد الالكتروني مسجل من قبل');
           googleSignInMethod();
         } else {
-          googleRegister();
+          googleSignInMethod();
+        //  googleRegister();
           // print("here");
           // userRegister(countryCode: '$country');
         }
       }
     } catch (e) {
-      appMessage(text: '$e');
+      FaceValidateUserEmail ();
+     // appMessage(text: '$e');
       print("ERRORxxx::$e");
     }
   }
@@ -355,7 +354,6 @@ class AuthCubit extends Cubit<AuthStates> {
     );
     if (result.status == LoginStatus.success) {
       _accessToken = result.accessToken;
-
       final userData = await FacebookAuth.instance.getUserData();
       _userData = userData;
       print("Success");
@@ -382,6 +380,7 @@ class AuthCubit extends Cubit<AuthStates> {
           // appMessage(text: 'البريد الالكتروني مسجل من قبل');
          loginFaceBook();
         } else {
+         // loginFaceBook();
           FaceRegister(
               _userData!['email'],
               _userData!['name'],
@@ -392,7 +391,9 @@ class AuthCubit extends Cubit<AuthStates> {
         }
       }
     } catch (e) {
-      appMessage(text: '$e');
+
+      googleValidateUserEmail ();
+      //appMessage(text: '$e');
       print("ERRORxxx::$e");
     }
   }
@@ -429,8 +430,6 @@ class AuthCubit extends Cubit<AuthStates> {
       print('Permission denied');
     }
     String? deviceToken = await FirebaseMessaging.instance.getToken();
-
-
 
     try {
       emit(GoogleRegisterLoadingState());
@@ -527,7 +526,7 @@ class AuthCubit extends Cubit<AuthStates> {
         })
         .catchError(onError)
         .then((value) {
-          print(onError);
+          print("ERRRORR==="+onError.toString());
           emit(GoogleLoginErrorState(onError.toString()));
         });
     print(googleUser);
@@ -536,13 +535,20 @@ class AuthCubit extends Cubit<AuthStates> {
   Future<void> getData() async {
 
 
-    bool serviceEnabled=await Geolocator.isLocationServiceEnabled();
-    if(!serviceEnabled){
-      appMessage(text: '');
-    }
+    // bool serviceEnabled=await Geolocator.isLocationServiceEnabled();
+    // if(!serviceEnabled){
+    //   appMessage(text: '');
+    // }
     LocationPermission permission=await Geolocator.checkPermission();
     if(permission==LocationPermission.denied){
       permission=await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.deniedForever) {
+
+      permission=await Geolocator.requestPermission();
+      // The user has previously denied the request permanently.
+      // You might want to handle this case specifically.
+     // return;
     }
 
 
@@ -642,21 +648,23 @@ class AuthCubit extends Cubit<AuthStates> {
       appMessage(text: 'كلمة السر يجب ان تساوي او تزيد عن  6 احرف');
     }
 
-    else if (nameController.text.length < 2) {
-      appMessage(text: 'ادخل الاسم بشكل سليم');
-    } else if (infoController.text.length < 3) {
-      appMessage(text: 'ادخل معلومات الطبيب  بشكل سليم');
-    } else if (degreeController.text.length < 3) {
-      appMessage(text: 'ادخل درجة العلمية  بشكل سليم');
-    } else if (priceController.text.length < 1) {
-      appMessage(text: 'ادخل السعر  بشكل سليم');
-    } else if (phoneController.text.length < 7) {
-      appMessage(text: 'ادخل رقم هاتفك  بشكل سليم');
-    }
+    // else if (nameController.text.length < 2) {
+    //   appMessage(text: 'ادخل الاسم بشكل سليم');
+    // } else if (infoController.text.length < 3) {
+    //   appMessage(text: 'ادخل معلومات الطبيب  بشكل سليم');
+    // } else if (degreeController.text.length < 3) {
+    //   appMessage(text: 'ادخل درجة العلمية  بشكل سليم');
+    // } else if (priceController.text.length < 1) {
+    //   appMessage(text: 'ادخل السعر  بشكل سليم');
+    // } else if (phoneController.text.length < 7) {
+    //   appMessage(text: 'ادخل رقم هاتفك  بشكل سليم');
+    // }
+    //
+    // else if (timeController.text.length < 1) {
+    //   appMessage(text: 'ادخل التوقيت  بشكل سليم');
+    // }
 
-    else if (timeController.text.length < 1) {
-      appMessage(text: 'ادخل التوقيت  بشكل سليم');
-    } else {
+    else {
 
       try {
         print("days=="+daysController.text);
@@ -671,11 +679,11 @@ class AuthCubit extends Cubit<AuthStates> {
         emit(RegisterLoadingState());
         var res = await http.post(Uri.parse(API.signup), body: {
           'paid':paid.toString(),
-          'clink_name1':clinkName1.text.trim(),
-          'clink_name2':clinkName2.text.trim(),
+          'clink_name1':clinkName1.text.trim()??"",
+          'clink_name2':clinkName2.text.trim()??"",
           'clink_name3':clinkName3.text.trim(),
           'token':deviceToken,
-          'clink_p1':clinkPosition1.text.trim(),
+          'clink_p1':clinkPosition1.text.trim()??'',
           'clink_p2':clinkPosition2.text.trim(),
           'clink_p3':clinkPosition3.text.trim(),
           'clink_phone1':clinkPhone1.text.trim(),
@@ -692,7 +700,7 @@ class AuthCubit extends Cubit<AuthStates> {
           'ads_days': days.toString(),
           "days":daysController.text,
           "doctor_password": passwordController.text.trim(),
-          "doctor_name": nameController.text.trim(),
+          "doctor_name": nameController.text.trim()??"",
           "doctor_cat": cat,
 
           "doctor_info": infoController.text.trim(),
@@ -713,13 +721,13 @@ class AuthCubit extends Cubit<AuthStates> {
           "address2": addressController2.text,
           "address3": addressController3.text,
           "time1": timeController.text,
-           "time1x": timeControllerX.text,
-          "time2": timeController2.text,
-           "time2x": timeControllerX2.text,
+           "time1x": timeControllerX.text??'',
+          "time2": timeController2.text??"",
+           "time2x": timeControllerX2.text??"",
           "time3": timeController3.text,
            "time3x": timeControllerX.text,
-          "lat": lat.toString(),
-          "lng": long.toString(),
+          "lat": lat.toString()??"",
+          "lng": long.toString()??"",
           'country': country
         });
 
@@ -1182,6 +1190,18 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
+  Future<fauth.UserCredential> signInWithFacebook() async {
+    print("FACE");
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final fauth.OAuthCredential facebookAuthCredential
+    = fauth.FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    // Once signed in, return the UserCredential
+    return fauth.FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
   userRegister({required String countryCode}) async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     NotificationSettings settings = await messaging.requestPermission();
@@ -1215,11 +1235,18 @@ class AuthCubit extends Cubit<AuthStates> {
 
         print(resOfSignUp);
         if (resOfSignUp['Success'] == true) {
+
           emit(UserRegisterSuccessState());
 
+          Future.delayed(Duration(seconds: 2)).then((value)=>
+          //  autoLogin(email, password)
+          userLogin()
+            // Get.offAll(UserLoginView(cat: 'user'))
+          );
           registerInFireBase(type: 'user', countryCode: countryCode);
 
           autoLogin(emailController.text, passwordController.text);
+
           option = true;
         } else {
           print(res.body);
@@ -1265,6 +1292,7 @@ class AuthCubit extends Cubit<AuthStates> {
             // appMessage(text: 'تم تسجيل الدخول بنجاح');
 
             emit(UserLoginSuccessState());
+
           } else {
             emit(UserLoginErrorState('not 200'));
           }
@@ -1377,7 +1405,6 @@ class AuthCubit extends Cubit<AuthStates> {
       Get.offAll(SalesCodeView());
     } else {
       emit(UserLoginLoadingState());
-
       try {
         var res = await http.post(Uri.parse(API.userLogin), body: {
           'email': email,
@@ -1455,6 +1482,8 @@ class AuthCubit extends Cubit<AuthStates> {
             // appMessage(text: 'تم تسجيل الدخول بنجاح');
 
             emit(UserLoginSuccessState());
+
+
           } else {
             emit(UserLoginErrorState('not 200'));
           }

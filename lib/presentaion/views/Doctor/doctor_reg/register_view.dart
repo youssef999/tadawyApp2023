@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import '../../User/user_auth/Login.dart';
-import '../../User/user_auth/user_login_view.dart';
 import '../../sales/sales_view.dart';
 
 
@@ -30,7 +28,7 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
 
   List<String> _options = ['طبيب', 'مستشفي', 'صيدلية','علاج نفسي','مركز تجميل','مركز اشاعة'
-    ,'مركز تحاليل','تمريض','اخري'];
+    ,'معامل تحاليل','تمريض','اخري'];
 
 
   String dropdownValue = 'طبيب';
@@ -154,10 +152,10 @@ class _RegisterViewState extends State<RegisterView> {
     String countryCode=box.read('countryCode');
 
     return BlocProvider(
-        create: (BuildContext context) => AuthCubit()..getData(),
+        create: (BuildContext context) => AuthCubit(),
+          //..getData(),
         child: BlocConsumer<AuthCubit, AuthStates>(
             listener: (context, state) async {
-              // AuthCubit authCubit = AuthCubit.get(context);
 
 
               if(state is RegisterSuccessState){
@@ -199,7 +197,6 @@ class _RegisterViewState extends State<RegisterView> {
                         padding: const EdgeInsets.only(left:8.0,right:8),
                         child: Column(
                           children:  [
-
                             CircleAvatar(
                               radius: 70,
                                 backgroundColor:ColorsManager.white,
@@ -220,9 +217,15 @@ class _RegisterViewState extends State<RegisterView> {
                             SizedBox(height: 10,),
                             _buildDropDownWidget(),
                             SizedBox(height: 33,),
-                            Custom_Text(text: 'القسم الخاص بك',fontSize:16,color:Colors.black,alignment:Alignment.center),
-                            SizedBox(height: 12,),
-                            _buildDropDownWidget2(),
+                            (dropdownValue=='طبيب')?
+                            Column(
+                              children: [
+                                Custom_Text(text: 'القسم الخاص بك',fontSize:16,color:Colors.black,alignment:Alignment.center),
+                                SizedBox(height: 12,),
+                                _buildDropDownWidget2(),
+                              ],
+                            ):SizedBox(),
+
                            // _buildRadioList(),
 
                             const SizedBox(height: 40,),
@@ -268,7 +271,7 @@ class _RegisterViewState extends State<RegisterView> {
                               },
                             ),
                             const SizedBox(height: 20,),
-
+                            (dropdownValue=='طبيب')?
                             CustomTextFormField(
                               controller:authCubit.nameController,
                               color:Colors.black,
@@ -278,7 +281,7 @@ class _RegisterViewState extends State<RegisterView> {
                               obx: false,
                               ontap:(){},
                               type:TextInputType.text,
-                            ),
+                            ):SizedBox(),
                             const SizedBox(height: 10,),
                             CustomTextFormField(
                               controller:authCubit.emailController,
@@ -311,13 +314,16 @@ class _RegisterViewState extends State<RegisterView> {
                             const SizedBox(height: 10,),
 
 
+
+                            SizedBox(height: 11,),
+
                             (authCubit.locatate==false)?
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(Icons.location_on,color:ColorsManager.primary,),
-                                CustomButton(text: 'تحديد الموقع', onPressed: (){
-
+                                CustomButton(text: 'اضغط هنا لتحديد موقعك ', onPressed: (){
+                                  authCubit.getData();
                                   // print(getCurrentLocation());
 
                                   appMessage(text: 'جاري تحديد الموقغ');
@@ -354,7 +360,7 @@ class _RegisterViewState extends State<RegisterView> {
                             CustomTextFormField(
                               controller:authCubit.clinkName1,
                               color:Colors.black,
-                              hint: "اسم مكان عملك مثل مستشفي الامل او عيادة د/ ...  ",
+                              hint: " الاسم الخاص بجهة العمل  ",
                               obs: false,
                               max:2,
                               obx: false,
@@ -388,54 +394,60 @@ class _RegisterViewState extends State<RegisterView> {
                             SizedBox(height: 10,),
 
                             SizedBox(height: 10,),
-                            CustomTextFormField(
-                              controller:authCubit.clinkPhone1,
-                              color:Colors.black,
-                              hint: " رقم العيادة ارضي   ",
-                              obs: false,
-                              max:2,
-                              obx: false,
-                              ontap:(){},
-                              type:TextInputType.phone,
-                            ),
+                            (dropdownValue=='طبيب')?
+                            Column(
+                              children: [
+                                CustomTextFormField(
+                                  controller:authCubit.clinkPhone1,
+                                  color:Colors.black,
+                                  hint: " رقم العيادة ارضي   ",
+                                  obs: false,
+                                  max:2,
+                                  obx: false,
+                                  ontap:(){},
+                                  type:TextInputType.phone,
+                                ),
+                                SizedBox(height: 10,),
+                                CustomTextFormField(
+                                  controller:authCubit.clinkPhone2,
+                                  color:Colors.black,
+                                  hint: " رقم العيادة موبايل  ",
+                                  obs: false,
+                                  max:2,
+                                  obx: false,
+                                  ontap:(){},
+                                  type:TextInputType.phone,
+                                ),
 
-                            SizedBox(height: 10,),
-                            CustomTextFormField(
-                              controller:authCubit.clinkPhone2,
-                              color:Colors.black,
-                              hint: " رقم العيادة موبايل  ",
-                              obs: false,
-                              max:2,
-                              obx: false,
-                              ontap:(){},
-                              type:TextInputType.phone,
-                            ),
-
-                            SizedBox(height: 10,),
-                            CustomTextFormField(
-                              controller:authCubit.clinkPhone3,
-                              color:Colors.black,
-                              hint: " رقم العيادة واتس  ",
-                              obs: false,
-                              max:2,
-                              obx: false,
-                              ontap:(){},
-                              type:TextInputType.phone,
-                            ),
+                                SizedBox(height: 10,),
+                                CustomTextFormField(
+                                  controller:authCubit.clinkPhone3,
+                                  color:Colors.black,
+                                  hint: " رقم العيادة واتس  ",
+                                  obs: false,
+                                  max:2,
+                                  obx: false,
+                                  ontap:(){},
+                                  type:TextInputType.phone,
+                                ),
 
 
 
-                            SizedBox(height: 10,),
-                            CustomTextFormField(
-                              controller:authCubit.clinkPosition1,
-                              color:Colors.black,
-                              hint: " منصبك في هذا المكان  ",
-                              obs: false,
-                              max:2,
-                              obx: false,
-                              ontap:(){},
-                              type:TextInputType.text,
-                            ),
+                                SizedBox(height: 10,),
+                                CustomTextFormField(
+                                  controller:authCubit.clinkPosition1,
+                                  color:Colors.black,
+                                  hint: " منصبك في هذا المكان  ",
+                                  obs: false,
+                                  max:2,
+                                  obx: false,
+                                  ontap:(){},
+                                  type:TextInputType.text,
+                                ),
+                              ],
+                            ):SizedBox(),
+
+
                             const SizedBox(height: 10,),
                             CustomTextFormField(
                               controller:authCubit.infoController,
@@ -569,7 +581,7 @@ class _RegisterViewState extends State<RegisterView> {
                             CustomTextFormField(
                               controller:authCubit.priceController,
                               color:Colors.black,
-                              hint: " سعر الكشف    ",
+                              hint: " متوسط السعر     ",
                               max:2,
                               obs: false,
                               obx: false,
@@ -590,6 +602,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                             const SizedBox(height: 10,),
 
+                            (dropdownCatValue=='طبيب')?
                             CustomTextFormField(
                               controller:authCubit.degreeController,
                               color:Colors.black,
@@ -599,7 +612,7 @@ class _RegisterViewState extends State<RegisterView> {
                               obx: false,
                               ontap:(){},
                               type:TextInputType.text,
-                            ),
+                            ):SizedBox(),
                             const SizedBox(height: 40,),
 
                             (authCubit.pickedImageXFiles2!=null)?
@@ -628,19 +641,27 @@ class _RegisterViewState extends State<RegisterView> {
                               child: Column(
                                 children: [
 
-                                  Container(
-                                   width: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius:BorderRadius.circular(20),
-                                      color:ColorsManager.primary,
-                                    ),
-                                    //   radius: 100,
-                                    child:Image.asset('assets/images/img2.jpg'),
-                                  ),
-                                  const SizedBox(height: 20,),
-                                  const Custom_Text(text: 'صور لمؤهلات او شهادات ',color:Colors.black,
-                                    fontSize:21,alignment:Alignment.center,
-                                  ),
+
+                                  (dropdownValue=='طبيب')?
+                                  Column(
+                                    children: [
+
+                                      Container(
+                                        width: 160,
+                                        decoration: BoxDecoration(
+                                          borderRadius:BorderRadius.circular(20),
+                                          color:ColorsManager.primary,
+                                        ),
+                                        //   radius: 100,
+                                        child:Image.asset('assets/images/img2.jpg'),
+                                      ),
+                                      const SizedBox(height: 20,),
+
+                                      const Custom_Text(text: 'صور لمؤهلات او شهادات او ما يميز ',color:Colors.black,
+                                        fontSize:21,alignment:Alignment.center,
+                                      ),
+                                    ],
+                                  ):SizedBox()
                                 ],
                               ),
                               onTap:(){
@@ -846,7 +867,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 CustomTextFormField(
                                   controller:authCubit.clinkName2,
                                   color:Colors.black,
-                                  hint: "اسم مكان عملك مثل مستشفي الامل او عيادة د/ ...  ",
+                                  hint: "اسم مكان العمل  ",
                                   obs: false,
                                   max:2,
                                   obx: false,
@@ -857,51 +878,58 @@ class _RegisterViewState extends State<RegisterView> {
                                 CustomTextFormField(
                                   controller:authCubit.clinkPhone4,
                                   color:Colors.black,
-                                  hint: " رقم العيادة ارضي   ",
+                                  hint: " رقم للتواصل  ",
                                   obs: false,
                                   max:2,
                                   obx: false,
                                   ontap:(){},
                                   type:TextInputType.phone,
                                 ),
+                                (dropdownCatValue=='طبيب')?
+                                Column(
+                                  children: [
 
-                                SizedBox(height: 10,),
-                                CustomTextFormField(
-                                  controller:authCubit.clinkPhone5,
-                                  color:Colors.black,
-                                  hint: " رقم العيادة موبايل  ",
-                                  obs: false,
-                                  max:2,
-                                  obx: false,
-                                  ontap:(){},
-                                  type:TextInputType.phone,
-                                ),
+                                    SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.clinkPhone5,
+                                      color:Colors.black,
+                                      hint: " رقم العيادة موبايل  ",
+                                      obs: false,
+                                      max:2,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.phone,
+                                    ),
 
-                                SizedBox(height: 10,),
-                                CustomTextFormField(
-                                  controller:authCubit.clinkPhone6,
-                                  color:Colors.black,
-                                  hint: " رقم العيادة واتس  ",
-                                  obs: false,
-                                  max:2,
-                                  obx: false,
-                                  ontap:(){},
-                                  type:TextInputType.phone,
-                                ),
+                                    SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.clinkPhone6,
+                                      color:Colors.black,
+                                      hint: " رقم العيادة واتس  ",
+                                      obs: false,
+                                      max:2,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.phone,
+                                    ),
 
 
 
-                                SizedBox(height: 10,),
-                                CustomTextFormField(
-                                  controller:authCubit.clinkPosition2,
-                                  color:Colors.black,
-                                  hint: " منصبك في هذا المكان  ",
-                                  obs: false,
-                                  max:2,
-                                  obx: false,
-                                  ontap:(){},
-                                  type:TextInputType.text,
-                                ),
+                                    SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.clinkPosition2,
+                                      color:Colors.black,
+                                      hint: " منصبك في هذا المكان  ",
+                                      obs: false,
+                                      max:2,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.text,
+                                    ),
+                                  ],
+                                ):SizedBox(),
+
+
 
                                 SizedBox(height: 10,),
                                 CustomTextFormField(
@@ -1038,7 +1066,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 CustomTextFormField(
                                   controller:authCubit.clinkName3,
                                   color:Colors.black,
-                                  hint: "اسم مكان عملك مثل مستشفي الامل او عيادة د/ ...  ",
+                                  hint: "اسم مكان العمل  ",
                                   obs: false,
                                   max:2,
                                   obx: false,
@@ -1049,7 +1077,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 CustomTextFormField(
                                   controller:authCubit.clinkPhone7,
                                   color:Colors.black,
-                                  hint: " رقم العيادة ارضي   ",
+                                  hint: " رقم للتواصل   ",
                                   obs: false,
                                   max:2,
                                   obx: false,
@@ -1058,16 +1086,32 @@ class _RegisterViewState extends State<RegisterView> {
                                 ),
 
                                 SizedBox(height: 10,),
-                                CustomTextFormField(
-                                  controller:authCubit.clinkPhone8,
-                                  color:Colors.black,
-                                  hint: " رقم العيادة موبايل  ",
-                                  obs: false,
-                                  max:2,
-                                  obx: false,
-                                  ontap:(){},
-                                  type:TextInputType.phone,
-                                ),
+                                (dropdownValue=='طبيب')?
+                                Column(
+                                  children: [
+                                    CustomTextFormField(
+                                      controller:authCubit.clinkPhone8,
+                                      color:Colors.black,
+                                      hint: " رقم العيادة موبايل  ",
+                                      obs: false,
+                                      max:2,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.phone,
+                                    ),
+                                    SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.clinkPosition3,
+                                      color:Colors.black,
+                                      hint: " منصبك في هذا المكان  ",
+                                      obs: false,
+                                      max:2,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.text,
+                                    ),
+                                  ],
+                                ):SizedBox(),
 
                                 SizedBox(height: 10,),
                                 CustomTextFormField(
@@ -1083,17 +1127,7 @@ class _RegisterViewState extends State<RegisterView> {
 
 
 
-                                SizedBox(height: 10,),
-                                CustomTextFormField(
-                                  controller:authCubit.clinkPosition3,
-                                  color:Colors.black,
-                                  hint: " منصبك في هذا المكان  ",
-                                  obs: false,
-                                  max:2,
-                                  obx: false,
-                                  ontap:(){},
-                                  type:TextInputType.text,
-                                ),
+
 
                                 CustomTextFormField(
                                   controller:authCubit.addressController3,
@@ -1202,6 +1236,7 @@ class _RegisterViewState extends State<RegisterView> {
                             const SizedBox(height: 20,),
                             CustomButton(text: "تسجيل",
                                 onPressed: (){
+
                                 final box=GetStorage();
                                 box.remove('pay');
 
