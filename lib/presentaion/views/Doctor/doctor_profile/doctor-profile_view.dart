@@ -61,10 +61,12 @@ class DoctorProfileView extends StatelessWidget {
                     color:ColorsManager.primary,
                   ),
                   const SizedBox(height: 15,),
-                  Custom_Text(text: doctorCubit.doc.doctor_cat.toString(),alignment:Alignment.topRight,
-                    fontSize:15,
-                    color:ColorsManager.black,
-                  ),
+
+
+                  // Custom_Text(text: doctorCubit.doc.doctor_cat.toString(),alignment:Alignment.topRight,
+                  //   fontSize:15,
+                  //   color:ColorsManager.black,
+                  // ),
                   const SizedBox(height: 15,),
                   Row(
                     children: [

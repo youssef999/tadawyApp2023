@@ -34,9 +34,16 @@ class AuthCubit extends Cubit<AuthStates> {
   // objects mn nfsy
   static AuthCubit get(context) => BlocProvider.of(context);
 
+
+
+
+  bool isChecked = false;
+  bool isChecked2 = false;
+
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
 
   TextEditingController nameController = TextEditingController();
+  TextEditingController hospitalCatController = TextEditingController();
   TextEditingController nameController2 = TextEditingController();
   TextEditingController catController = TextEditingController();
   TextEditingController placeController = TextEditingController();
@@ -157,6 +164,27 @@ class AuthCubit extends Cubit<AuthStates> {
           );
         });
   }
+
+  changeCheckBox(bool val)
+
+  {
+
+    isChecked=val;
+
+    emit(ChangeCheckBoxState());
+
+  }
+
+  changeCheckBox2(bool val)
+
+  {
+
+    isChecked2=val;
+
+    emit(ChangeCheckBoxState2());
+
+  }
+
 
   loginFaceBook() async {
     emit(FaceLoginLoadingState());
@@ -648,22 +676,6 @@ class AuthCubit extends Cubit<AuthStates> {
       appMessage(text: 'كلمة السر يجب ان تساوي او تزيد عن  6 احرف');
     }
 
-    // else if (nameController.text.length < 2) {
-    //   appMessage(text: 'ادخل الاسم بشكل سليم');
-    // } else if (infoController.text.length < 3) {
-    //   appMessage(text: 'ادخل معلومات الطبيب  بشكل سليم');
-    // } else if (degreeController.text.length < 3) {
-    //   appMessage(text: 'ادخل درجة العلمية  بشكل سليم');
-    // } else if (priceController.text.length < 1) {
-    //   appMessage(text: 'ادخل السعر  بشكل سليم');
-    // } else if (phoneController.text.length < 7) {
-    //   appMessage(text: 'ادخل رقم هاتفك  بشكل سليم');
-    // }
-    //
-    // else if (timeController.text.length < 1) {
-    //   appMessage(text: 'ادخل التوقيت  بشكل سليم');
-    // }
-
     else {
 
       try {
@@ -678,6 +690,10 @@ class AuthCubit extends Cubit<AuthStates> {
         print(lat);
         emit(RegisterLoadingState());
         var res = await http.post(Uri.parse(API.signup), body: {
+
+          'delivery':isChecked.toString(),
+          'fullService':isChecked2.toString(),
+          'hospitalCat':hospitalCatController.text,
           'paid':paid.toString(),
           'clink_name1':clinkName1.text.trim()??"",
           'clink_name2':clinkName2.text.trim()??"",
@@ -702,13 +718,9 @@ class AuthCubit extends Cubit<AuthStates> {
           "doctor_password": passwordController.text.trim(),
           "doctor_name": nameController.text.trim()??"",
           "doctor_cat": cat,
-
           "doctor_info": infoController.text.trim(),
-
           "doctor_masters": masterController.text.trim(),
-
           "doctor_degree": degreeController.text.trim(),
-
           "price": priceController.text.trim(),
           "doctor_phone": countryCode+p.trim(),
           "doctor_image": imageLink,
@@ -1128,6 +1140,7 @@ class AuthCubit extends Cubit<AuthStates> {
         var resOfLogin = jsonDecode((res.body));
 
         if (resOfLogin['success'] == true) {
+
           DoctorModel doc_Info = DoctorModel.fromJson(resOfLogin['userData']);
           print("UserINfo====${doc_Info.doctor_email}");
 

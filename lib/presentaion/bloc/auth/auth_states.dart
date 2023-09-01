@@ -281,12 +281,20 @@ class GoogleRegisterSuccessState extends AuthStates{
 
 }
 
+class ChangeCheckBoxState extends AuthStates{
 
+}
 
+class ChangeCheckBoxState2 extends AuthStates{
+
+}
 
 class FaceLoginLoadingState extends AuthStates{
 
 }
+
+
+
 
 class FaceLoginErrorState extends AuthStates{
 

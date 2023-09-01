@@ -6,6 +6,7 @@ import 'package:doctors_app/presentaion/resources/assets_manager.dart';
 import 'package:doctors_app/presentaion/resources/color_manager.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
+import 'package:doctors_app/presentaion/widgets/appBar.dart';
 import 'package:doctors_app/presentaion/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -181,13 +182,11 @@ class _RegisterViewState extends State<RegisterView> {
             },
             builder: (context, state) {
               AuthCubit authCubit = AuthCubit.get(context);
+
+
               return Scaffold(
                 backgroundColor:Colors.white,
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: ColorsManager.primary,
-                  toolbarHeight: 1,
-                ),
+                appBar: CustomAppBar('', true, 55),
                 body: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
@@ -283,6 +282,28 @@ class _RegisterViewState extends State<RegisterView> {
                               type:TextInputType.text,
                             ):SizedBox(),
                             const SizedBox(height: 10,),
+                            (dropdownValue=='مستشفي')?
+                            Column(
+                              children: [
+                                Custom_Text(text: 'مثال : قلب , عيون, باطنة...',
+                                fontSize:19,alignment:Alignment.center,
+                                ),
+                                SizedBox(height: 6,),
+                                CustomTextFormField(
+                                  controller:authCubit.hospitalCatController,
+                                  color:Colors.black,
+                                  hint: "الاقسام داخل المستشفي",
+                                  max: 6,
+                                  obs: false,
+                                  obx: false,
+                                  ontap:(){},
+                                  type:TextInputType.text,
+                                ),
+                              ],
+                            ):SizedBox(),
+
+
+                            const SizedBox(height: 10,),
                             CustomTextFormField(
                               controller:authCubit.emailController,
                               color:Colors.black,
@@ -304,9 +325,8 @@ class _RegisterViewState extends State<RegisterView> {
                                 controller: authCubit.phoneController,
                                 decoration: InputDecoration(
                                     suffixIcon: Container(
-
                                         child: Text(countryCode,style:TextStyle(fontSize:17),)),
-                                    hintText: 'رقم الهاتف '
+                                    hintText: 'رقم الهاتف للتواصل  '
                                 ),
                               ),
                             ),
@@ -447,6 +467,52 @@ class _RegisterViewState extends State<RegisterView> {
                               ],
                             ):SizedBox(),
 
+                            (dropdownValue=='صيدلية')?
+                        Column(
+                          children: [
+                            SizedBox(height: 10,),
+                            Custom_Text(
+                                alignment: Alignment.center,
+                                text: 'قم بالتحديد اذا كنت تقدم خدمة الترصيل '),
+                            SizedBox(height: 6,),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: authCubit.isChecked,
+                                  onChanged: (newValue) {
+                                    authCubit.  changeCheckBox(newValue!);
+                                  },
+                                ),
+                                Custom_Text(text: 'خدمة التوصيل',
+                                fontSize: 22,color:Colors.black,
+                                )
+                              ],
+                            ),
+                          ],
+                        ):SizedBox(),
+
+                            Column(
+                              children: [
+                                SizedBox(height: 10,),
+                                Custom_Text(
+                                    alignment: Alignment.center,
+                                    text: 'قم بالتحديد اذا كنت تقدم خدمة 24 ساعة  '),
+                                SizedBox(height: 6,),
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: authCubit.isChecked2,
+                                      onChanged: (newValue) {
+                                        authCubit.changeCheckBox2(newValue!);
+                                      },
+                                    ),
+                                    Custom_Text(text: 'خدمة ٢٤ ساعة ',
+                                      fontSize: 22,color:Colors.black,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
 
                             const SizedBox(height: 10,),
                             CustomTextFormField(
@@ -578,6 +644,8 @@ class _RegisterViewState extends State<RegisterView> {
                               type:TextInputType.text,
                             ),
                             const SizedBox(height: 10,),
+
+                            (dropdownValue=='طبيب')?
                             CustomTextFormField(
                               controller:authCubit.priceController,
                               color:Colors.black,
@@ -587,7 +655,7 @@ class _RegisterViewState extends State<RegisterView> {
                               obx: false,
                               ontap:(){},
                               type:TextInputType.number,
-                            ),
+                            ):SizedBox(),
 
                             const SizedBox(height: 10,),
 
