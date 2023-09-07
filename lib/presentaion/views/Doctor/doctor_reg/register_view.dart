@@ -473,7 +473,7 @@ class _RegisterViewState extends State<RegisterView> {
                             SizedBox(height: 10,),
                             Custom_Text(
                                 alignment: Alignment.center,
-                                text: 'قم بالتحديد اذا كنت تقدم خدمة الترصيل '),
+                                text: 'قم بالتحديد اذا كنت تقدم خدمة التوصيل '),
                             SizedBox(height: 6,),
                             Row(
                               children: [

@@ -28,8 +28,8 @@ class  DoctorModel {
   String ?clink_phone8;
   String ?clink_phone9;
 
-
-
+  String ?delivery;
+  String ?fullService;
 
 
 
@@ -84,13 +84,16 @@ this.clink_phone4,this.clink_phone5,this.clink_phone6,
 this.clink_phone7,this.clink_phone8,this.clink_phone9,
     this.location,this.location2,this.location3,
     this.doctor_info,this.position,this.price,
-    this.doctor_password,this.doctor_image
+    this.doctor_password,this.doctor_image,
+    this.delivery,this.fullService
   });
 
   factory DoctorModel.fromJson(Map<String,dynamic>json)=>DoctorModel(
 
       doctor_id:json['doctor_id']??'',
       paid:json["paid"]??"",
+      delivery: json["delivery"],
+      fullService: json['fullService'],
       lat: json['lat']??"",
       lng: json['lng']??"",
       time1x: json['time1x']??'',

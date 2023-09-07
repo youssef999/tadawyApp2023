@@ -352,6 +352,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                 ),
               ),
               onTap: () {
+
+                print("cat222"+catList[index].cat2);
+
                 Get.to(AllDoctorsView(catList[index].cat2));
               },
             ),

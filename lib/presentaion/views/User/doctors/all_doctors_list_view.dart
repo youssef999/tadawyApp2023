@@ -31,7 +31,6 @@ class _AllDoctorsViewState extends State<AllDoctorsView> {
         ..getPriceCountry()
           ..getAllDoctors(widget.cat2)..getAllAds(),
         child: BlocConsumer<PatientCubit, PatientStates>(
-
             listener: (context, state) {
             //  PatientCubit cubit = PatientCubit.get(context);
               if(state is getAdsSuccessState){
@@ -39,12 +38,8 @@ class _AllDoctorsViewState extends State<AllDoctorsView> {
               //  print(cubit.adsList2.length);
               }
             },
-
             builder: (context, state) {
-
               PatientCubit cubit = PatientCubit.get(context);
-
-
               return Scaffold(
                 backgroundColor:  ColorsManager.primaryx,
                 appBar: AppBar(
@@ -56,7 +51,6 @@ class _AllDoctorsViewState extends State<AllDoctorsView> {
                   color: ColorsManager.primaryx,
                   child: ListView(
                     children: [
-
                       if(widget.cat2=='طبيب')
                       Container(
                         color: ColorsManager.primary,

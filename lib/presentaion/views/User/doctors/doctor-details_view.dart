@@ -39,13 +39,17 @@ class DoctorDetailsView extends StatelessWidget {
           child: ListView(
             children: [
               const SizedBox(height: 20,),
+              (doctorData.doctor_image!.length>6)?
               SizedBox(
-               // height: 200,
                 width: 230,
-                //height: 300,
-                child:Image.network(doctorData.doctor_image.toString()),
+                child:Image.network
+                  (doctorData.doctor_image.toString()),
+              ):SizedBox(
+                height: 100,
+               // width: MediaQuery.of(context).size.width * 0.30,
+                child:Image.asset('assets/images/doc.png'),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 10,),
              Column(
                 children: [
                   Custom_Text(
@@ -55,12 +59,14 @@ class DoctorDetailsView extends StatelessWidget {
                     alignment:Alignment.topRight,
                   ),
                   const SizedBox(height: 15,),
+
+                  (doctorData.cat2=='طبيب')?
                   Custom_Text(
                     alignment:Alignment.topRight,
                     text: doctorData.doctor_cat.toString(),
                     color:ColorsManager.primary,
                     fontSize: 20,
-                  ),
+                  ):SizedBox()
                 ],
               ),
 
@@ -77,27 +83,34 @@ class DoctorDetailsView extends StatelessWidget {
                   Column(
                     children: [
 
-                      Custom_Text(text: 'رقم  ارضي ',alignment: Alignment.topRight),
+                      Custom_Text(text: 'الرقم  ',alignment: Alignment.topRight),
                       SizedBox(height: 10,),
                       Custom_Text(text: doctorData.doctor_phone.toString(),alignment:Alignment.center,
                         fontSize:15,
                         color:ColorsManager.black,
                       ),
                       SizedBox(height: 10,),
-                      Custom_Text(text: 'رقم  موبيل ',alignment: Alignment.topRight),
-                      SizedBox(height: 10,),
-                      Custom_Text(text:  doctorData.doctor_phone1.toString(),alignment:Alignment.center,
-                        fontSize:15,
-                        color:ColorsManager.black,
-                      ),
-                      SizedBox(height: 10,),
-                      Custom_Text(text: 'رقم  واتس ',alignment: Alignment.topRight),
-                      SizedBox(height: 10,),
-                      Custom_Text(text:  doctorData.doctor_phone2.toString(),alignment:Alignment.center,
-                        fontSize:15,
-                        color:ColorsManager.black,
-                      ),
-                      SizedBox(height: 6,),
+
+                      (doctorData.cat2=='طبيب')?
+                      Column(
+                        children: [
+                          Custom_Text(text: 'رقم  موبيل ',alignment: Alignment.topRight),
+                          SizedBox(height: 10,),
+                          Custom_Text(text:  doctorData.doctor_phone1.toString(),alignment:Alignment.center,
+                            fontSize:15,
+                            color:ColorsManager.black,
+                          ),
+                          SizedBox(height: 10,),
+                          Custom_Text(text: 'رقم  واتس ',alignment: Alignment.topRight),
+                          SizedBox(height: 10,),
+                          Custom_Text(text:  doctorData.doctor_phone2.toString(),alignment:Alignment.center,
+                            fontSize:15,
+                            color:ColorsManager.black,
+                          ),
+                          SizedBox(height: 6,),
+                        ],
+                      ):SizedBox()
+
                     ],
                   )
 
@@ -149,13 +162,33 @@ class DoctorDetailsView extends StatelessWidget {
               Custom_Text(text: '- - - - - - - - - - - - - - - - -',fontSize: 21,color:ColorsManager.primary,alignment: Alignment.center,),
 
               const SizedBox(height: 15,),
+
+
+              (doctorData.delivery=='true')?
+              Custom_Text(text: 'متاح خدمة التوصيل   ',
+                alignment:Alignment.topRight,
+                fontSize:22,
+                color:Colors.black,
+              ):SizedBox(),
+
+
+              SizedBox(
+                height: 11,
+              ),
+              (doctorData.fullService=='true')?
+              Custom_Text(text: ' متاح خدمة ٢٤ ساعة ',alignment:Alignment.topRight,
+                fontSize:15,
+                color:Colors.grey,
+              ):SizedBox(),
+
+              (doctorData.lat==null)?
               InkWell(
                 child: Row(
                   children:  [
 
                     Icon(Icons.maps_ugc_sharp,color:ColorsManager.primary,),
                     SizedBox(width: 20,),
-                    Custom_Text(text: 'موقع الطبيب  علي الخريطة    -  ',alignment:Alignment.topRight,
+                    Custom_Text(text: 'الموفع  علي الخريطة    -  ',alignment:Alignment.topRight,
                       fontSize:15,
                       color:Colors.grey,
                     ),
@@ -169,8 +202,8 @@ class DoctorDetailsView extends StatelessWidget {
                   url(doctorData.lat!,doctorData.lng!);
 
                 },
-              ),
-              SizedBox(height: 20,),
+              ):SizedBox(height: 1,),
+
 
               (doctorData.address2.toString()!='')?
 
@@ -251,9 +284,10 @@ class DoctorDetailsView extends StatelessWidget {
 
               const SizedBox(height: 15,),
                  const SizedBox(height: 25,),
+
+              (doctorData.price!.length>1&&doctorData.price!='')?
               Row(
                 children: [
-
                  Icon(Icons.price_change,color:ColorsManager.primary,),
                   const SizedBox(width: 20,),
                   const Custom_Text(text: 'السعر   -  ',alignment:Alignment.topRight,
@@ -268,7 +302,7 @@ class DoctorDetailsView extends StatelessWidget {
                   ),
 
                 ],
-              ),
+              ):SizedBox(),
               const SizedBox(height: 25,),
 
 
@@ -318,30 +352,34 @@ class DoctorDetailsView extends StatelessWidget {
                 ),
               ):SizedBox(height: 1,),
               const SizedBox(height: 22,),
+
+              (doctorData.doctor_degree.toString().length>1)?
               Row(
                 children: [
+                  Column(
+                    children: [
+                      Container(
+                        child: Image.asset('assets/images/grade.png'),
+                      ),
+                      const SizedBox(width: 20,),
+                      const Custom_Text(text: ' الدرجة العلمية ',alignment:Alignment.topRight,
+                        fontSize:24,
+                        color:ColorsManager.black,
+                      ),
+                      const SizedBox(width: 10,),
+                      const SizedBox(height: 12,),
 
-                  Container(
-                    child: Image.asset('assets/images/grade.png'),
+                      Custom_Text(text: doctorData.doctor_degree.toString(),alignment:Alignment.center,
+                        fontSize:15,
+                        color:ColorsManager.black,
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 20,),
-                  const Custom_Text(text: ' الدرجة العلمية ',alignment:Alignment.topRight,
-                    fontSize:24,
-                    color:ColorsManager.black,
-                  ),
-                  const SizedBox(width: 10,),
-
-
 
                 ],
-              ),
+              ):SizedBox(),
 
-              const SizedBox(height: 12,),
 
-              Custom_Text(text: doctorData.doctor_degree.toString(),alignment:Alignment.center,
-                fontSize:15,
-                color:ColorsManager.black,
-              ),
 
               const SizedBox(height: 20,),
               (doctorData.image2!=''&&doctorData.image2!=null)?
