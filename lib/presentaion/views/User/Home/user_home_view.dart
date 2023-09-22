@@ -1,3 +1,4 @@
+import 'package:doctors_app/domain/models/ads.dart';
 import 'package:doctors_app/domain/models/cat.dart';
 import 'package:doctors_app/domain/models/country.dart';
 import 'package:doctors_app/domain/models/user.dart';
@@ -12,7 +13,6 @@ import 'package:doctors_app/presentaion/widgets/Custom_Text.dart';
 import 'package:doctors_app/presentaion/widgets/Custom_button.dart';
 import 'package:doctors_app/presentaion/widgets/ads_widget/ads_slider2.dart';
 import 'package:doctors_app/presentaion/widgets/ads_widget/ads_widget.dart';
-import 'package:doctors_app/presentaion/widgets/ads_widget/best_widget.dart';
 import 'package:doctors_app/presentaion/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,13 +32,16 @@ import '../doctors/doctor-details_view.dart';
 }
 
 class _UserHomeViewState extends State<UserHomeView> {
+
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return  BlocProvider(
-        create:(BuildContext context)=>PatientCubit()..getPriceCountry()
-          ..getAllAds()..getAllAds2()
-          ..getAllCat()..getTopDoctors()..getAllCountries(),
+        create:(BuildContext context)=>PatientCubit()
+          ..getPriceCountry()
+          ..getAllAds()
+          ..getAllCat()..getTopDoctors()..getAllCountries()..filterData(),
 
         child: BlocConsumer<PatientCubit,PatientStates>(
             listener:(context,state){
@@ -64,12 +67,10 @@ class _UserHomeViewState extends State<UserHomeView> {
                   SizedBox(width: MediaQuery.of(context).size.width*0.06,),
                   InkWell(child:
                   Icon(Icons.drag_handle_outlined,color:ColorsManager.primary,size: 40,),
-
                   onTap:(){
                     _scaffoldKey.currentState!.openDrawer();
                   },
                   ),
-
                   SizedBox(width: MediaQuery.of(context).size.width*0.22,),
                   SizedBox(
                       height: 77,
@@ -91,12 +92,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                     ],
                   ),
 
-
-
                 ],
               ),
               SizedBox(height: 12,),
-
               SizedBox(height: 5),
               Row(
                 children: [
@@ -190,7 +188,6 @@ class _UserHomeViewState extends State<UserHomeView> {
               const SizedBox(height: 20,),
              Custom_Text(text: '- - - - - - - - - ',color:ColorsManager.primary,fontSize:23
                 ,alignment:Alignment.center),
-
               const SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.only(left:26.0,right: 26,top:10,bottom:10),
@@ -218,8 +215,6 @@ class _UserHomeViewState extends State<UserHomeView> {
              Custom_Text(text: '- - - - - - - - - ',color:ColorsManager.primary,fontSize:23
                   ,alignment:Alignment.center),
               const SizedBox(height: 20,),
-
-
 
               AdsSlider2(patientCubit.adsList),
 
@@ -340,13 +335,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                             const SizedBox(
                               height: 5,
                             ),
-
                           ],
                         ),
                       ),
-
-
-
                     ],
                   ),
                 ),

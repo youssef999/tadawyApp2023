@@ -9,6 +9,7 @@ List<Ads> adsFromJson(String str) => List<Ads>.from(json.decode(str).map((x) => 
 //String AdsToJson(List<Ads> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Ads {
+
   Ads({
     required this.id,
     required this.name,

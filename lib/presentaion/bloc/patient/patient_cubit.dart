@@ -111,7 +111,6 @@ class PatientCubit extends Cubit<PatientStates> {
         var responseBody = jsonDecode(res.body);
         if (responseBody["success"] == true) {
           (responseBody['Data'] as List).forEach((eachRecord) {
-
             countryList.add(Country.fromJson(eachRecord));
 
 
@@ -134,7 +133,9 @@ class PatientCubit extends Cubit<PatientStates> {
     return countryList;
   }
 
-  Future<List<Ads>> getAllAds() async {
+void getAllAds() async {
+
+    adsList=[];
     print("ALL ADS");
     final box = GetStorage();
     String country = box.read('country') ?? 'x';
@@ -174,7 +175,10 @@ class PatientCubit extends Cubit<PatientStates> {
       emit(getAdsErrorState(error: e.toString()));
     }
 
-    return adsList;
+    print("====ADS===="+adsList.toString());
+    print("====ADS length===="+adsList.length.toString());
+
+  //  return adsList;
   }
 
   Future<List<Ads>> getAllAds2() async {
@@ -517,7 +521,40 @@ class PatientCubit extends Cubit<PatientStates> {
   }
 
 
+  DoctorModel doc=DoctorModel();
 
+  Future<DoctorModel> getDoctorData(String id) async {
+    try {
+      emit(TopDoctorsLoadingState());
+      var res = await http.post(
+        Uri.parse(API.DOCDATA),body:{
+        "doctor_id":id
+      },
+      );
+      if (res.statusCode == 200) {
+        print(res.body);
+        var responseBody = jsonDecode(res.body);
+
+        if (responseBody["success"] == true) {
+          print(responseBody['Data']);
+          doc=DoctorModel.fromJson(responseBody['Data']);
+          // (responseBody['Data'] as List).forEach((eachRecord) {
+          //   topDoctorList.add(DoctorModel.fromJson(eachRecord));
+          // });
+          // print("TOP===$topDoctorList");
+        }
+        emit(TopDoctorsSuccessState());
+      } else {
+        print(res.statusCode);
+        emit(TopDoctorsErrorState());
+      }
+    } catch (e) {
+      print("Error===");
+      print(e.toString());
+      emit(TopDoctorsErrorState());
+    }
+    return doc;
+  }
 
   Future<List<DoctorModel>> getTopDoctors() async {
     final box=GetStorage();
@@ -572,7 +609,6 @@ class PatientCubit extends Cubit<PatientStates> {
       if (res.statusCode == 200) {
         print(res.body);
         var responseBody = jsonDecode(res.body);
-
         if (responseBody["success"] == true) {
           print(responseBody['Data']);
           (responseBody['Data'] as List).forEach((eachRecord) {
@@ -591,7 +627,6 @@ class PatientCubit extends Cubit<PatientStates> {
       print(e.toString());
       emit(getDoctorsErrorState());
     }
-
     return doctorList;
   }
 
@@ -665,6 +700,45 @@ class PatientCubit extends Cubit<PatientStates> {
     return doctorList;
   }
 
+  List<Ads>newAdsList=[];
+  filterData(){
+    print("FILTERads");
+    for(int i=0;i<adsList.length;i++){
+      // if(widget.adsList[i].date_end.toString().length>2){
+      //   print("IF HERE");
+      DateTime currentDate = DateTime.now();
+      String date=adsList[i]
+          .date_end.toString();
+      DateTime date2 = DateTime.parse(date);
+      int result = currentDate.compareTo(date2);
+      print("/////");
+      print(currentDate);
+      print(date2);
+      print(result);
+      print("//////////");
+      String comparisonResult;
+
+      if (result < 0) {
+        comparisonResult = 'Date 1 is before Date 2';
+
+          newAdsList.add(adsList[i]);
+
+
+      } else if (result == 0) {
+        comparisonResult = 'Date 1 is equal to Date 2';
+      } else {
+        comparisonResult = 'Date 1 is after Date 2';
+
+      }
+      print(comparisonResult);
+      emit(getAdsSuccessState());
+      // }else{
+      //
+      //   print("NOT IDF");
+      //}
+    }
+
+  }
 
   Future<List<Cat>> getAllCat() async {
     try {

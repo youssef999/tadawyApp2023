@@ -24,6 +24,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import '../../resources/assets_manager.dart';
 import '../../views/FireBase/otp_view.dart';
 import '../../views/User/user_auth/Login.dart';
@@ -71,6 +72,9 @@ class AuthCubit extends Cubit<AuthStates> {
   TextEditingController timeControllerX3 = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController daysController = TextEditingController();
+  TextEditingController price1Controller = TextEditingController();
+  TextEditingController price2Controller = TextEditingController();
+  TextEditingController price3Controller = TextEditingController();
   String smsCode = '';
   String verId = '';
   Coins coins = Coins();
@@ -242,7 +246,9 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  void validateDocPhone(String dropdownValue,String dropdownCatValue,bool sales,int adsNum,int days) async {
+  void validateDocPhone(String dropdownValue,
+      String dropdownCatValue,bool sales,
+      int adsNum,int days) async {
 
     print("PHONE");
     final box = GetStorage();
@@ -542,7 +548,8 @@ class AuthCubit extends Cubit<AuthStates> {
   void googleSignInMethod() async {
 
     emit(GoogleLoginLoadingState());
-    final GoogleSignInAccount? googleUser = await googleSignIn
+    final GoogleSignInAccount? googleUser = 
+    await googleSignIn
         .signIn()
         .then((value) {
           print("vvv=$value");
@@ -664,7 +671,6 @@ class AuthCubit extends Cubit<AuthStates> {
     else{
       paid=true;
     }
-
     if(phoneController.text.startsWith('0')){
       p=phoneController.text.replaceFirst('0', '');
     }else{
@@ -680,6 +686,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
       try {
         print("days=="+daysController.text);
+
         String deviceToken='';
         await FirebaseMessaging.instance.getToken().then((token) {
           print("Device Token: $token");
@@ -689,8 +696,27 @@ class AuthCubit extends Cubit<AuthStates> {
         });
         print(lat);
         emit(RegisterLoadingState());
-        var res = await http.post(Uri.parse(API.signup), body: {
 
+        DateTime currentDate = DateTime.now();
+
+        // Calculate the date after the next 10 days
+        DateTime dateAfterDays = currentDate.add
+          (Duration(days: days));
+
+        print(dateAfterDays);
+        String formattedDate = DateFormat
+          ('yyyy-MM-dd').format(dateAfterDays);
+
+        print(formattedDate);
+
+        var res = await http.post(Uri.parse(API.signup),
+            body: {
+
+          'price1':price1Controller.text,
+          'price2':price2Controller.text,
+          'price3':price3Controller.text,
+
+           'date_end':formattedDate.toString(),
           'delivery':isChecked.toString(),
           'fullService':isChecked2.toString(),
           'hospitalCat':hospitalCatController.text,
@@ -1675,10 +1701,7 @@ class AuthCubit extends Cubit<AuthStates> {
       imageQuality: 100,
     );
     isImage = true;
-    // if(pickedImageXFiles!.isEmpty){
-    //   pickedImageXFiles.add();
-    // }
-    //Get.back();
+
     emit(setImageSuccessState());
     uploadMultiImageToServer();
   }
@@ -1688,10 +1711,6 @@ class AuthCubit extends Cubit<AuthStates> {
       imageQuality: 100,
     );
     isImage = true;
-    // if(pickedImageXFiles!.isEmpty){
-    //   pickedImageXFiles.add();
-    // }
-  //  Get.back();
     emit(setImageSuccessState());
     uploadMultiImageToServer2();
   }
@@ -1744,7 +1763,6 @@ class AuthCubit extends Cubit<AuthStates> {
       requestImgurApi.fields['title'] = imageName;
       requestImgurApi.headers['Authorization'] =
           "Client-ID " + "fb8a505f4086bd5";
-      //"6ca0d6456311e4d";
 
       var imageFile = await http.MultipartFile.fromPath(
         'image',

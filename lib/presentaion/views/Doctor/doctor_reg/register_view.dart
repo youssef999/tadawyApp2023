@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart'as Intl;
 import '../../User/user_auth/Login.dart';
 import '../../sales/sales_view.dart';
 
@@ -79,7 +80,8 @@ class _RegisterViewState extends State<RegisterView> {
   ];
 
 
-  String dropdownCatValue =    "أمراض القلب والأوعية الدموية";
+  String dropdownCatValue =
+      "أمراض القلب والأوعية الدموية";
 
   final box=GetStorage();
 
@@ -87,7 +89,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   Widget _buildDropDownWidget(){
     return Container(
-
       decoration:BoxDecoration(
         borderRadius:BorderRadius.circular(20),
         color:ColorsManager.primary,
@@ -899,7 +900,24 @@ class _RegisterViewState extends State<RegisterView> {
                                     },
                                   ),
                                 ),
+                                (dropdownValue=='طبيب')?
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.price1Controller,
+                                      color:Colors.black,
+                                      hint: " سعر الكشف في هذا المكان    ",
+                                      max:1,
+                                      obs: false,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.number,
+                                    ),
 
+                                    const SizedBox(height: 10,),
+                                  ],
+                                ):SizedBox(),
                                 const SizedBox(height: 10,),
 
 
@@ -1098,7 +1116,24 @@ class _RegisterViewState extends State<RegisterView> {
                                     },
                                   ),
                                 ),
+                                (dropdownValue=='طبيب')?
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.price2Controller,
+                                      color:Colors.black,
+                                      hint: " سعر الكشف في هذا المكان    ",
+                                      max:1,
+                                      obs: false,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.number,
+                                    ),
 
+                                    const SizedBox(height: 10,),
+                                  ],
+                                ):SizedBox(),
 
                                 const SizedBox(height: 10,),
 
@@ -1197,6 +1232,7 @@ class _RegisterViewState extends State<RegisterView> {
 
 
 
+
                                 CustomTextFormField(
                                   controller:authCubit.addressController3,
                                   color:Colors.black,
@@ -1254,7 +1290,6 @@ class _RegisterViewState extends State<RegisterView> {
                                 SizedBox(
                                   height:80,
                                   child: TextFormField(
-
                                     controller:  authCubit.timeControllerX3,
                                     style:const TextStyle(fontSize:14,color:Colors.blue),
                                     keyboardType: TextInputType.datetime,
@@ -1294,6 +1329,24 @@ class _RegisterViewState extends State<RegisterView> {
                                     },
                                   ),
                                 ),
+                                (dropdownValue=='طبيب')?
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    CustomTextFormField(
+                                      controller:authCubit.price3Controller,
+                                      color:Colors.black,
+                                      hint: " سعر الكشف في هذا المكان    ",
+                                      max:1,
+                                      obs: false,
+                                      obx: false,
+                                      ontap:(){},
+                                      type:TextInputType.number,
+                                    ),
+
+                                    const SizedBox(height: 10,),
+                                  ],
+                                ):SizedBox(),
 
                                 const SizedBox(height: 10,),
 
@@ -1302,8 +1355,13 @@ class _RegisterViewState extends State<RegisterView> {
 
 
                             const SizedBox(height: 20,),
+
+
                             CustomButton(text: "تسجيل",
+
+
                                 onPressed: (){
+
 
                                 final box=GetStorage();
                                 box.remove('pay');

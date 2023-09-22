@@ -27,7 +27,7 @@ class  DoctorModel {
   String ?clink_phone7;
   String ?clink_phone8;
   String ?clink_phone9;
-
+  String ? date_end;
   String ?delivery;
   String ?fullService;
 
@@ -69,7 +69,7 @@ class  DoctorModel {
 
   DoctorModel({
 
-    this.doctor_id, this.doctor_email, this.doctor_name,this.place,this.place2,
+    this.doctor_id,this.date_end, this.doctor_email, this.doctor_name,this.place,this.place2,
     this.doctor_phone,this.doctor_cat,this.country,this.days2,
     this.doctor_degree,this.cat2,this.days,this.rate,this.image1,this.image2,
     this.doctor_phone1,this.doctor_phone2,this.doctor_phone3,
@@ -117,7 +117,7 @@ this.clink_phone7,this.clink_phone8,this.clink_phone9,
       clink_phone7: json['clink_phone7']??'',
       clink_phone8: json['clink_phone8']??'',
       clink_phone9: json['clink_phone9']??'',
-
+      date_end:json["date_end"]??"",
       //int.parse(json['doctor_id'].toString()),
      doctor_email: json['doctor_email']??"",
      doctor_name: json['doctor_name']??'',

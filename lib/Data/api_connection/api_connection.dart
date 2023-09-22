@@ -68,6 +68,7 @@
   static const Places2 = '$hostConnection/doctor/get_places2.php';
 
   static const TopDoctors = '$hostConnection/doctor/top_doctors.php';
+  static const DOCDATA = '$hostConnection/doctor/doctor_data.php';
 
   static const Best = '$hostConnection/doctor/ads.php';
 

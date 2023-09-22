@@ -13,14 +13,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
  void main() async{
-
    Bloc.observer = MyBlocObserver();
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
  await Firebase.initializeApp();
   configureFirebaseMessaging();
   runApp(const MyApp());
-
  }
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
