@@ -240,6 +240,7 @@ Widget BookingWidget(List<Booking> listApp,BookingCubit cubit) {
                                    ),
                                    onTap:(){
                                      print(listApp[index].doctor_phone.toString());
+                                     print(listApp[index].doctor_phone.toString());
                                      sendWhatsApp(listApp[index].doctor_phone.toString(),'');
 
                                    },
@@ -317,6 +318,7 @@ Widget BookingWidget(List<Booking> listApp,BookingCubit cubit) {
        //   return 'whatsapp://wa.me/$phone&text=$msg';
      }
    }
-   await canLaunch(url())?launch(url()) :launch(url());
+   await canLaunch(url())?launch(url()) :
+   launch(url());
    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('there is no whats app in your device')));
  }

@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../Doctor/Home/dashboard.dart';
+import '../../txt/privacy_policy.dart';
 import '../Home/dash_board.dart';
 
 class UserLoginView extends StatefulWidget {
@@ -302,6 +303,7 @@ class _UserLoginViewState extends State<UserLoginView> {
                               ),
                               onTap:(){
 
+                                Get.to(PrivacyPolicyView());
                               },
                             ),
                             SizedBox(height: 20,),
@@ -552,7 +554,7 @@ class _UserLoginViewState extends State<UserLoginView> {
                               ],
                             ),
                             onTap:(){
-
+                              Get.to(PrivacyPolicyView());
                             },
                           ),
 

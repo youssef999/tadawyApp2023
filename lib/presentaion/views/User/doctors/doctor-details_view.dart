@@ -181,7 +181,7 @@ class DoctorDetailsView extends StatelessWidget {
                 color:Colors.grey,
               ):SizedBox(),
 
-              (doctorData.lat==null)?
+              (doctorData.lat!=null)?
               InkWell(
                 child: Row(
                   children:  [
@@ -190,7 +190,7 @@ class DoctorDetailsView extends StatelessWidget {
                     SizedBox(width: 20,),
                     Custom_Text(text: 'الموفع  علي الخريطة    -  ',alignment:Alignment.topRight,
                       fontSize:15,
-                      color:Colors.grey,
+                      color:Colors.black,
                     ),
                     SizedBox(width: 10,),
 
@@ -242,38 +242,45 @@ class DoctorDetailsView extends StatelessWidget {
 
 
               const SizedBox(height: 6,),
-              if(doctorData.location2!='')
-              InkWell(
-                child: Row(
-                  children:  [
-                    SizedBox(width: 60,),
-                    Icon(Icons.maps_ugc_sharp,color:ColorsManager.primary,),
-                    SizedBox(width: 20,),
-                    Custom_Text(text: doctorData.location2! ,alignment:Alignment.center,
-                      fontSize:15,
-                      color:Colors.grey,
-                    ),
-                    SizedBox(width: 10,),
-                  ],
-                ),
-                onTap:(){
-                  print(doctorData);
-                  url(doctorData.lat!,doctorData.lng!);
-                },
-              ),
 
+              //if(doctorData.location2!='')
+              // InkWell(
+              //   child: Row(
+              //     children:  [
+              //       SizedBox(width: 60,),
+              //       Icon(Icons.location_on_rounded,size: 44,
+              //         color:ColorsManager.primary,),
+              //       SizedBox(width: 20,),
+              //       Custom_Text(text: doctorData.location2! ,alignment:Alignment.center,
+              //         fontSize:15,
+              //         color:Colors.grey,
+              //       ),
+              //       Custom_Text(text: 'انتقل للعنوان الان ' ,alignment:Alignment.center,
+              //         fontSize:15,
+              //         color:Colors.grey,
+              //       ),
+              //       SizedBox(width: 10,),
+              //     ],
+              //   ),
+              //   onTap:(){
+              //     print(doctorData);
+              //     url(doctorData.lat!,doctorData.lng!);
+              //   },
+              // ),
+              SizedBox(height: 11,),
+              Divider(),
               const SizedBox(height: 15,),
               (doctorData.address3.toString()!='')?
 
               Row(
                 children: [
-
                 Icon(Icons.place,color:ColorsManager.primary,),
                   const SizedBox(width: 20,),
                   Custom_Text(text: doctorData.address3.toString(),alignment:Alignment.topRight,
                     fontSize:15,
                     color:ColorsManager.black,
                   ),
+
                   const SizedBox(width: 10,),
                   Custom_Text(text: doctorData.time2.toString(),alignment:Alignment.topRight,
                     fontSize:15,
